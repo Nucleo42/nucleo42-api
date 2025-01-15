@@ -1,0 +1,6 @@
+rootProject.name = 'nucleo42-api'
+include 'core'
+include 'usecase'
+include 'application'
+include 'infrastructure'
+

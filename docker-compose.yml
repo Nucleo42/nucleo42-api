@@ -1,0 +1,21 @@
+services:
+  postgres:
+    container_name: postgres-nucleo42-api
+    build: ./config/db/
+    env_file:
+      - ./config/db/.env
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - nucleo42-api-demo
+    restart: unless-stopped
+
+networks:
+  nucleo42-api-demo:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
