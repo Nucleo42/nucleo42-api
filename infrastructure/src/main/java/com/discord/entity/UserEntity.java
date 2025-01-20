@@ -49,6 +49,9 @@ public class UserEntity {
     )
     private List<SkillEntity> skills;
 
+    @OneToMany(mappedBy = "user")
+    private List<ProjectMemberEntity> projectMembers;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

@@ -8,13 +8,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "projects")
-public class Project {
+public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -30,6 +31,9 @@ public class Project {
 
     @Column(nullable = false)
     private String goal;
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectMemberEntity> projectMembers;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
