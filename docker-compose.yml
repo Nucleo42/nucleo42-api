@@ -11,6 +11,27 @@ services:
     networks:
       - nucleo42-api-demo
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d nucleo42" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  app:
+    container_name: spring-boot-nucleo42-api
+    build:
+      context: .
+      dockerfile: ./config/app/Dockerfile
+    env_file:
+      - config/app/.env
+    ports:
+      - 8080:8080
+    networks:
+      - nucleo42-api-demo
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
 
 networks:
   nucleo42-api-demo:
