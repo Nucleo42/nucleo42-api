@@ -1,4 +1,4 @@
-package com.discord.entity;
+package com.nucleo42.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

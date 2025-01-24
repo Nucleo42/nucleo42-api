@@ -1,4 +1,4 @@
-package com.discord.entity;
+package com.nucleo42.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,15 +10,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "roles")
-public class RoleEntity {
+@AllArgsConstructor
+@Entity(name = "technologies")
+public class TechnologyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String name;
 
     @CreationTimestamp
