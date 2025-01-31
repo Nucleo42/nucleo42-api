@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL_TEST}
+    username: ${DATABASE_USER_TEST}
+    password: ${DATABASE_PASSWORD_TEST}
+    driver-class-name: org.postgresql.Driver
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+security:
+    jwt:
+        secret: secret
+        expiration: 86400000
+        refresh:
+            expiration: 86400000
+flyway:
+    enable: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
