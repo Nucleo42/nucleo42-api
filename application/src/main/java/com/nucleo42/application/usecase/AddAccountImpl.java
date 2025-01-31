@@ -17,7 +17,8 @@ public class AddAccountImpl implements AddAccount {
 
     @Override
     public String add(User user) {
-        this.hasher.hash(user.getPassword());
+        var hashedPassword = this.hasher.hash(user.getPassword());
+        user.setPassword(hashedPassword);
 
         var result = this.addAccountGateway.add(user);
         if (!result) {
