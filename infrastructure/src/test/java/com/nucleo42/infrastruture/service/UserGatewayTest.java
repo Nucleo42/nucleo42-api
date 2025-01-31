@@ -39,4 +39,16 @@ class UserGatewayTest {
             verify(repository).save(userEntity);
         }
     }
+
+    @Test
+    @DisplayName("Should call UserRepository.existsByEmail with correct value")
+    void test02() {
+        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+
+            sut.add(user);
+
+            verify(repository).existsByEmail(userEntity.getEmail());
+        }
+    }
 }
