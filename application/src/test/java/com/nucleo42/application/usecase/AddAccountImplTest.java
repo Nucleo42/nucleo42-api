@@ -65,4 +65,10 @@ class AddAccountImplTest {
 
         assert testUser.getPassword().equals("hashedPassword");
     }
+
+    @Test
+    @DisplayName("Should return a message on success")
+    void test05() {
+        assert sut.add(testUser).equals("User registered successfully");
+    }
 }
