@@ -1,6 +1,5 @@
 package com.nucleo42.infrastruture.adapter;
 
-import com.nucleo42.adapter.BCryptAdapter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;

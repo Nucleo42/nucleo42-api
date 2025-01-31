@@ -1,4 +1,4 @@
-package com.nucleo42.dto;
+package com.nucleo42.infrastruture.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;

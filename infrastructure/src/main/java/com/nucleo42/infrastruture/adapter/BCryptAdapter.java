@@ -1,4 +1,4 @@
-package com.nucleo42.adapter;
+package com.nucleo42.infrastruture.adapter;
 
 import com.nucleo42.application.protocol.Hasher;
 import org.mindrot.jbcrypt.BCrypt;
