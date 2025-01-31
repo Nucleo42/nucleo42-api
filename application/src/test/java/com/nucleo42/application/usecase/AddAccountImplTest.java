@@ -31,6 +31,7 @@ class AddAccountImplTest {
     @BeforeEach
     void setup() {
         when(addAccountGateway.add(testUser)).thenReturn(true);
+        when(hasher.hash(testUser.getPassword())).thenReturn("hashedPassword");
     }
 
     @Test
@@ -55,5 +56,13 @@ class AddAccountImplTest {
         sut.add(testUser);
 
         verify(hasher).hash("Password@123");
+    }
+
+    @Test
+    @DisplayName("Should set user password to hashed value")
+    void test04() {
+        sut.add(testUser);
+
+        assert testUser.getPassword().equals("hashedPassword");
     }
 }
