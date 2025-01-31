@@ -3,6 +3,7 @@ package com.nucleo42.application.usecase;
 import com.nucleo42.application.gateway.AddAccountGateway;
 import com.nucleo42.application.protocol.Hasher;
 import com.nucleo42.entity.User;
+import com.nucleo42.exception.AcceptTermsException;
 import com.nucleo42.exception.UserAlreadyExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,12 +27,12 @@ class AddAccountImplTest {
     @Mock
     private Hasher hasher;
 
-    private final User testUser = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, null);
+    private final User testUser = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
 
     @BeforeEach
     void setup() {
-        when(addAccountGateway.add(testUser)).thenReturn(true);
-        when(hasher.hash(testUser.getPassword())).thenReturn("hashedPassword");
+        lenient().when(addAccountGateway.add(testUser)).thenReturn(true);
+        lenient().when(hasher.hash(testUser.getPassword())).thenReturn("hashedPassword");
     }
 
     @Test
@@ -70,5 +71,13 @@ class AddAccountImplTest {
     @DisplayName("Should return a message on success")
     void test05() {
         assert sut.add(testUser).equals("User registered successfully");
+    }
+
+    @Test
+    @DisplayName("Should throw AcceptTermsException when user has not accepted terms")
+    void test06() {
+        var user = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, false, null);
+
+        assertThrows(AcceptTermsException.class, () -> sut.add(user));
     }
 }
