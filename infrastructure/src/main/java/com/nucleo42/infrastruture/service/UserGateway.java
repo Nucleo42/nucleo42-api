@@ -16,7 +16,10 @@ public class UserGateway implements AddAccountGateway {
     public Boolean add(User user) {
         var userEntity = UserMapper.toEntity(user);
 
-        this.repository.existsByEmail(userEntity.getEmail());
+        var userExists = this.repository.existsByEmail(userEntity.getEmail());
+        if (userExists) {
+            return false;
+        }
 
         this.repository.save(userEntity);
         return null;
