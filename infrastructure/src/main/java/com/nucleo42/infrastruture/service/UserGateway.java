@@ -15,6 +15,9 @@ public class UserGateway implements AddAccountGateway {
     @Override
     public Boolean add(User user) {
         var userEntity = UserMapper.toEntity(user);
+
+        this.repository.existsByEmail(userEntity.getEmail());
+
         this.repository.save(userEntity);
         return null;
     }
