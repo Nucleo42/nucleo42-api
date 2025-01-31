@@ -22,6 +22,6 @@ public class UserGateway implements AddAccountGateway {
         }
 
         this.repository.save(userEntity);
-        return null;
+        return true;
     }
 }
