@@ -40,23 +40,32 @@ class SignUpControllerTest {
     @DisplayName("Should return 201 on success")
     void test01() throws Exception {
         mockMvc.perform(post("/signup")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isCreated());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated());
     }
 
     @Test
     @DisplayName("Should return 400 when user already exists")
     void test02() throws Exception {
         mockMvc.perform(post("/signup")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isCreated());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated());
 
         mockMvc.perform(post("/signup")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isBadRequest())
-            .andExpect(result -> result.getResponse().getContentAsString().contains("User already exists"));
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> result.getResponse().getContentAsString().contains("User already exists"));
+    }
+
+    @Test
+    @DisplayName("Should return 400 when request is invalid")
+    void test03() throws Exception {
+        mockMvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new SignUpRequestDTO("", "", "", "", false))))
+                .andExpect(status().isBadRequest());
     }
 }
