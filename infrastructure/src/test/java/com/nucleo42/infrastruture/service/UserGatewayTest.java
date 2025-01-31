@@ -11,8 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserGatewayTest {
@@ -49,6 +48,19 @@ class UserGatewayTest {
             sut.add(user);
 
             verify(repository).existsByEmail(userEntity.getEmail());
+        }
+    }
+
+    @Test
+    @DisplayName("Should return false if UserRepository.existsByEmail returns true")
+    void test03() {
+        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+            when(repository.existsByEmail(userEntity.getEmail())).thenReturn(true);
+
+            var result = sut.add(user);
+
+            assert result.equals(false);
         }
     }
 }
