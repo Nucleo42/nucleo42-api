@@ -29,6 +29,8 @@ class SignUpControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private SignUpRequestDTO dto = new SignUpRequestDTO("John", "Doe", "johndoe@mail.com", "Password@123", true);
+
     @BeforeEach
     void setup() {
         userRepository.deleteAll();
@@ -37,12 +39,24 @@ class SignUpControllerTest {
     @Test
     @DisplayName("Should return 201 on success")
     void test01() throws Exception {
-        System.out.println("URL do banco: " + System.getenv("DATABASE_URL_TEST"));
-        var request = new SignUpRequestDTO("John", "Doe", "johndoe@mail.com", "Password@123", true);
+        mockMvc.perform(post("/signup")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("Should return 400 when user already exists")
+    void test02() throws Exception {
+        mockMvc.perform(post("/signup")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(status().isCreated());
 
         mockMvc.perform(post("/signup")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated());
+            .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(status().isBadRequest())
+            .andExpect(result -> result.getResponse().getContentAsString().contains("User already exists"));
     }
 }
