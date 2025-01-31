@@ -25,6 +25,6 @@ public class AddAccountImpl implements AddAccount {
             throw new UserAlreadyExistsException();
         }
 
-        return "";
+        return "User registered successfully";
     }
 }
