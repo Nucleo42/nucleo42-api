@@ -9,15 +9,17 @@ public class User {
     private String email;
     private String password;
     private String biography;
+    private Boolean aceptTerms;
     private List<Skill> skills;
 
-    public User(String firstName, String lastName, String email, String password, String biography, List<Skill> skills) {
+    public User(String firstName, String lastName, String email, String password, String biography, Boolean aceptTerms, List<Skill> skills) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.biography = biography;
         this.skills = skills;
+        this.aceptTerms = aceptTerms;
     }
 
     public User() {
@@ -61,6 +63,14 @@ public class User {
 
     public void setBiography(String biography) {
         this.biography = biography;
+    }
+
+    public Boolean getAceptTerms() {
+        return aceptTerms;
+    }
+
+    public void setAceptTerms(Boolean aceptTerms) {
+        this.aceptTerms = aceptTerms;
     }
 
     public List<Skill> getSkills() {
