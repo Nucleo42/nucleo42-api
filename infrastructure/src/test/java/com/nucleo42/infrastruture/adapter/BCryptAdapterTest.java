@@ -11,8 +11,7 @@ import static org.mockito.Mockito.mockStatic;
 
 class BCryptAdapterTest {
     private final BCryptAdapter sut = new BCryptAdapter();
-
-    private String value = "any_value";
+    private final String value = "any_value";
 
     @Test
     @DisplayName("Should call BCrypt.hashpw with correct values")
