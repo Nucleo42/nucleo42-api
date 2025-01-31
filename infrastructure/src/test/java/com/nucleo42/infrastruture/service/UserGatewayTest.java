@@ -63,4 +63,17 @@ class UserGatewayTest {
             assert result.equals(false);
         }
     }
+
+    @Test
+    @DisplayName("Should return true on success")
+    void test04() {
+        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+            when(repository.existsByEmail(userEntity.getEmail())).thenReturn(false);
+
+            var result = sut.add(user);
+
+            assert result.equals(true);
+        }
+    }
 }
