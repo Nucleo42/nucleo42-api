@@ -11,7 +11,7 @@ public class UserMapper {
                 user.getLastName(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getAceptTerms(),
+                user.getAcceptTerms(),
                 null,
                 user.getBiography(),
                 null,
