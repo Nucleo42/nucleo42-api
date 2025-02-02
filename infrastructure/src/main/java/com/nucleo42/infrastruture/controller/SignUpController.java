@@ -1,6 +1,7 @@
 package com.nucleo42.infrastruture.controller;
 
 import com.nucleo42.entity.User;
+import com.nucleo42.exception.AcceptTermsException;
 import com.nucleo42.exception.UserAlreadyExistsException;
 import com.nucleo42.infrastruture.dto.SignUpRequestDTO;
 import com.nucleo42.usecase.AddAccount;
@@ -24,7 +25,7 @@ public class SignUpController {
             var user = new User(dto.firstName(), dto.lastName(), dto.email(), dto.password(), "", dto.acceptTerms(), null);
             var result = this.usecase.add(user);
             return ResponseEntity.created(null).body(result);
-        } catch (UserAlreadyExistsException ex) {
+        } catch (UserAlreadyExistsException | AcceptTermsException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
