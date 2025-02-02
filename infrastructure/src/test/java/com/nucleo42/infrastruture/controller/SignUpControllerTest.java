@@ -68,4 +68,15 @@ class SignUpControllerTest {
                         .content(objectMapper.writeValueAsString(new SignUpRequestDTO("", "", "", "", false))))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Should return 400 when acceptTerms is false")
+    void test04() throws Exception {
+        mockMvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new SignUpRequestDTO("", "", "", "", false))))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> result.getResponse().getContentAsString().contains("Accept terms is required"));
+
+    }
 }
