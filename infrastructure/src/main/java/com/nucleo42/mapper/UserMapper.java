@@ -6,11 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.nucleo42.dto.request.CreateUserRequest;
+import com.nucleo42.dto.request.UpdateUserRequest;
 import com.nucleo42.dto.response.UserResponse;
 import com.nucleo42.entity.Skill;
-import com.nucleo42.entity.SkillEntity;
+import com.nucleo42.infrastruture.entity.SkillEntity;
 import com.nucleo42.entity.User;
-import com.nucleo42.entity.UserEntity;
+import com.nucleo42.infrastruture.entity.UserEntity;
 
 @Component
 public class UserMapper {
@@ -31,6 +32,15 @@ public class UserMapper {
                 userEntity.getEmail(),
                 userEntity.getPassword(),
                 userEntity.getBiography());
+    }
+    public User toUser(UpdateUserRequest userRequest) {
+        return new User(
+                userRequest.getFirstName(),
+                userRequest.getLastName(),
+                userRequest.getEmail(),
+                userRequest.getPassword(),
+                userRequest.getBiography()
+                userRequest.getSkills());
     }
 
     public UserEntity toUserEntity(User user) {
