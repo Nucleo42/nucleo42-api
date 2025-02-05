@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleo42.FindUserProfileByIdCase;
-import com.nucleo42.SaveUserProfileCase;
 import com.nucleo42.UpdateUserProfileCase;
 import com.nucleo42.dto.request.UpdateUserRequest;
 import com.nucleo42.entity.User;
@@ -40,7 +39,7 @@ public class UpdateUserProfileController {
             user = userMapper.toUser(updateUser);
             updateUserCase.update(user);
         } catch (UserDoesNotExistException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("User updated successfully");
     }
