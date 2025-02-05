@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleo42.FindUserProfileByIdCase;
-import com.nucleo42.UserUseCase;
 import com.nucleo42.dto.response.UserResponse;
 import com.nucleo42.exception.UserDoesNotExistException;
 import com.nucleo42.mapper.UserMapper;
@@ -35,6 +34,6 @@ public class GetUserProfileController {
         } catch (UserDoesNotExistException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
