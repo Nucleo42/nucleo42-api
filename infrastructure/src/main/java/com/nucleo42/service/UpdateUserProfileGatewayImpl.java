@@ -6,7 +6,7 @@ import com.nucleo42.gateway.UpdateUserProfileGateway;
 import com.nucleo42.entity.User;
 import com.nucleo42.mapper.UserMapper;
 import com.nucleo42.repository.UserEntityRepository;
-import com.nucleo42.infrastructure.entity.UserEntity;
+import com.nucleo42.entity.UserEntity;
 
 @Service
 public class UpdateUserProfileGatewayImpl implements UpdateUserProfileGateway{
@@ -20,8 +20,7 @@ public class UpdateUserProfileGatewayImpl implements UpdateUserProfileGateway{
 
     @Override
     public void update(User user) {
-        UserEntity userEntity = userMapper.toUserEntity(user);
-        userEntity.setSkills(userMapper.toSkillEntity(user.getSkills()));
+        UserEntity userEntity = userMapper.toEntity(user);
         userRepository.save(userEntity);
     }
 }
