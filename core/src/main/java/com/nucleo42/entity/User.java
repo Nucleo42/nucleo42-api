@@ -96,14 +96,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", biography='" + biography + '\'' +
-                ", skills=" + skills +
-                '}';
+        return "User {" +
+                "\n\tid=" + id +
+                ", \n\tfirstName='" + firstName + '\'' +
+                ", \n\tlastName='" + lastName + '\'' +
+                ", \n\temail='" + email + '\'' +
+                ", \n\tpassword='" + password + '\'' +
+                ", \n\tbiography='" + biography + '\'' +
+                ", \n\tskills=" + skills +
+                "\n}";
     }
 }
