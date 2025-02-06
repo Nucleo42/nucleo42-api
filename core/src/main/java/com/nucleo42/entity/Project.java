@@ -96,14 +96,14 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", vacancies=" + vacancies +
-                ", goal='" + goal + '\'' +
-                ", technologies=" + technologies +
-                ", members=" + members +
-                '}';
+        return "Project {" +
+                "\n\tid=" + id +
+                ", \n\tname='" + name + '\'' +
+                ", \n\tdescription='" + description + '\'' +
+                ", \n\tvacancies=" + vacancies +
+                ", \n\tgoal='" + goal + '\'' +
+                ", \n\ttechnologies=" + technologies +
+                ", \n\tmembers=" + members +
+                "\n}";
     }
 }
