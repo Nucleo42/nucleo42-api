@@ -43,9 +43,9 @@ public class Technology {
 
     @Override
     public String toString() {
-        return "Technology{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Technology {" +
+                "\n\tid=" + id +
+                ", \n\tname='" + name + '\'' +
+                "\n}";
     }
 }
