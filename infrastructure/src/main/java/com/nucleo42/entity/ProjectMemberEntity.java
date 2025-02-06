@@ -10,15 +10,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "project_members")
 public class ProjectMemberEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private ProjectMemberId id;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
+    @MapsId("projectId")
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @ManyToOne
+    @MapsId("roleId")
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
 }
