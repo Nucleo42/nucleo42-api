@@ -1,7 +1,10 @@
 package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.LoadUserByEmailGateway;
+import com.nucleo42.application.protocol.HashCompare;
+import com.nucleo42.entity.User;
 import com.nucleo42.exception.InvalidCredentialsException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,19 +15,32 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class LoginImplTest {
+class LoginImplTest {
     @InjectMocks
     private LoginImpl sut;
 
     @Mock
     private LoadUserByEmailGateway loadUserByEmailGateway;
 
+    @Mock
+    private HashCompare hashCompare;
+
+    private User testUser = new User();
+
     private final String emailTest = "test@mail.com";
     private final String passwordTest = "Password@123";
+
+    @BeforeEach
+    void setup() {
+        this.testUser.setPassword("hashedPassword");
+
+
+        lenient().when(this.loadUserByEmailGateway.load(this.emailTest)).thenReturn(Optional.of(this.testUser));
+        lenient().when(this.hashCompare.compare(this.passwordTest, this.testUser.getPassword())).thenReturn(true);
+    }
 
     @Test
     @DisplayName("Should call LoadUserByEmailGateway with correct value")
@@ -40,5 +56,13 @@ public class LoginImplTest {
         when(this.loadUserByEmailGateway.load(this.emailTest)).thenReturn(Optional.empty());
 
         assertThrows(InvalidCredentialsException.class, () -> sut.login(this.emailTest, this.passwordTest));
+    }
+
+    @Test
+    @DisplayName("Should call HashCompare with correct values")
+    void test03() {
+        sut.login(this.emailTest, this.passwordTest);
+
+        verify(this.hashCompare).compare(this.passwordTest, this.testUser.getPassword());
     }
 }
