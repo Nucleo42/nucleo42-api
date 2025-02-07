@@ -1,7 +1,7 @@
 package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.AddAccountGateway;
-import com.nucleo42.application.protocol.Hasher;
+import com.nucleo42.application.protocol.HasheGenerator;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.AcceptTermsException;
 import com.nucleo42.exception.UserAlreadyExistsException;
@@ -25,14 +25,14 @@ class AddAccountImplTest {
     private AddAccountGateway addAccountGateway;
 
     @Mock
-    private Hasher hasher;
+    private HasheGenerator hasheGenerator;
 
     private final User testUser = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
 
     @BeforeEach
     void setup() {
         lenient().when(addAccountGateway.add(testUser)).thenReturn(true);
-        lenient().when(hasher.hash(testUser.getPassword())).thenReturn("hashedPassword");
+        lenient().when(hasheGenerator.hash(testUser.getPassword())).thenReturn("hashedPassword");
     }
 
     @Test
@@ -56,7 +56,7 @@ class AddAccountImplTest {
     void test03() {
         sut.add(testUser);
 
-        verify(hasher).hash("Password@123");
+        verify(hasheGenerator).hash("Password@123");
     }
 
     @Test
