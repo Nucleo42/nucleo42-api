@@ -1,7 +1,7 @@
 package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.LoadUserByEmailGateway;
-import com.nucleo42.exception.UserNotFoundException;
+import com.nucleo42.exception.InvalidCredentialsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,10 +35,10 @@ public class LoginImplTest {
     }
 
     @Test
-    @DisplayName("Should throw UserNotFoundException when LoadUserByEmailGateway returns empty")
+    @DisplayName("Should throw InvalidCredentialsException when LoadUserByEmailGateway returns empty")
     void test02() {
         when(this.loadUserByEmailGateway.load(this.emailTest)).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class, () -> sut.login(this.emailTest, this.passwordTest));
+        assertThrows(InvalidCredentialsException.class, () -> sut.login(this.emailTest, this.passwordTest));
     }
 }
