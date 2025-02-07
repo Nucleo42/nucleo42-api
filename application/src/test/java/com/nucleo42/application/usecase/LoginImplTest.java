@@ -65,4 +65,12 @@ class LoginImplTest {
 
         verify(this.hashCompare).compare(this.passwordTest, this.testUser.getPassword());
     }
+
+    @Test
+    @DisplayName("Should throw InvalidCredentialsException when HashCompare returns false")
+    void test04() {
+        when(this.hashCompare.compare(this.passwordTest, this.testUser.getPassword())).thenReturn(false);
+
+        assertThrows(InvalidCredentialsException.class, () -> sut.login(this.emailTest, this.passwordTest));
+    }
 }
