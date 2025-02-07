@@ -11,9 +11,12 @@ public class LoginImpl implements Login {
 
     @Override
     public String login(String email, String password) {
-        var user =this.loadUserByEmailGateway.load(email).orElseThrow(InvalidCredentialsException::new);
+        var user = this.loadUserByEmailGateway.load(email).orElseThrow(InvalidCredentialsException::new);
 
-        this.hashCompare.compare(password, user.getPassword());
+        var matchPassword = this.hashCompare.compare(password, user.getPassword());
+        if (!matchPassword) {
+            throw new InvalidCredentialsException();
+        }
 
         return "";
     }
