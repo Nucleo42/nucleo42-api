@@ -32,6 +32,7 @@ class JwtAdapterTest {
         mockedJWT.when(JWT::create).thenReturn(mockedBuild);
         when(mockedBuild.withIssuer(anyString())).thenReturn(mockedBuild);
         when(mockedBuild.sign(any(Algorithm.class))).thenReturn("tokenTest");
+        when(mockedBuild.withSubject(anyString())).thenReturn(mockedBuild);
     }
 
     @AfterEach
@@ -52,5 +53,12 @@ class JwtAdapterTest {
     void test02() {
             sut.generate(payloadTest);
             verify(mockedBuild).withIssuer("nucleo42");
+    }
+
+    @Test
+    @DisplayName("Should sign token with correct subject")
+    void test03() {
+            sut.generate(payloadTest);
+            verify(mockedBuild).withSubject(payloadTest);
     }
 }
