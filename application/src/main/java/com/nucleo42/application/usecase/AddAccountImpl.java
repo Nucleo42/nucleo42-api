@@ -1,7 +1,7 @@
 package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.AddAccountGateway;
-import com.nucleo42.application.protocol.HasheGenerator;
+import com.nucleo42.application.protocol.HashGenerator;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.AcceptTermsException;
 import com.nucleo42.exception.UserAlreadyExistsException;
@@ -9,11 +9,11 @@ import com.nucleo42.usecase.AddAccount;
 
 public class AddAccountImpl implements AddAccount {
     private final AddAccountGateway addAccountGateway;
-    private final HasheGenerator hasheGenerator;
+    private final HashGenerator hashGenerator;
 
-    public AddAccountImpl(AddAccountGateway addAccountGateway, HasheGenerator hasheGenerator) {
+    public AddAccountImpl(AddAccountGateway addAccountGateway, HashGenerator hashGenerator) {
         this.addAccountGateway = addAccountGateway;
-        this.hasheGenerator = hasheGenerator;
+        this.hashGenerator = hashGenerator;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class AddAccountImpl implements AddAccount {
             throw new AcceptTermsException();
         }
 
-        var hashedPassword = this.hasheGenerator.hash(user.getPassword());
+        var hashedPassword = this.hashGenerator.hash(user.getPassword());
         user.setPassword(hashedPassword);
 
         var result = this.addAccountGateway.add(user);

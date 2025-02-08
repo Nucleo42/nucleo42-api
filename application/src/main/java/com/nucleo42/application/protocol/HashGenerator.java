@@ -1,5 +1,5 @@
 package com.nucleo42.application.protocol;
 
-public interface HasheGenerator {
+public interface HashGenerator {
     String hash(String value);
 }
