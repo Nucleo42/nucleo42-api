@@ -70,5 +70,17 @@ class BCryptAdapterTest {
                 assert !result;
             }
         }
+
+        @Test
+        @DisplayName("Should return true when BCrypt.checkpw returns true")
+        void test03() {
+            try (var mockedBcrypt = mockStatic(BCrypt.class)) {
+                mockedBcrypt.when(() -> BCrypt.checkpw(anyString(), anyString())).thenReturn(true);
+
+                var result = sut.compare(valueTest, hashedValueTest);
+
+                assert result;
+            }
+        }
     }
 }
