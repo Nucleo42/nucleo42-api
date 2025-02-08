@@ -73,4 +73,11 @@ class JwtAdapterTest {
         var expiresAt = Instant.now().plus(Duration.ofHours(72));
         verify(mockedBuild).withExpiresAt(expiresAt);
     }
+
+    @Test
+    @DisplayName("Should return token")
+    void test05() {
+        var token = sut.generate(payloadTest);
+        assert token.equals("tokenTest");
+    }
 }
