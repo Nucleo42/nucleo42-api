@@ -14,6 +14,7 @@ public class JwtAdapter implements TokenGenerator {
     public String generate(String payload) {
         return JWT.create()
                 .withIssuer("nucleo42")
+                .withSubject(payload)
                 .sign(algorithm);
     }
 }
