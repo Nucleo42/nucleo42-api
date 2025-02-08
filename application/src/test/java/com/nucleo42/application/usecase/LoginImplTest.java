@@ -45,6 +45,7 @@ class LoginImplTest {
 
         lenient().when(this.loadUserByEmailGateway.load(this.emailTest)).thenReturn(Optional.of(this.testUser));
         lenient().when(this.hashCompare.compare(this.passwordTest, this.testUser.getPassword())).thenReturn(true);
+        lenient().when(this.tokenGenerator.generate(this.testUser.getId().toString())).thenReturn("token");
     }
 
     @Test
@@ -85,5 +86,13 @@ class LoginImplTest {
         sut.login(this.emailTest, this.passwordTest);
 
         verify(this.tokenGenerator).generate(this.testUser.getId().toString());
+    }
+
+    @Test
+    @DisplayName("Should return a token on success")
+    void test06() {
+        var result = sut.login(this.emailTest, this.passwordTest);
+
+        assert result.equals("token");
     }
 }
