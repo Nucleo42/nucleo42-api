@@ -7,9 +7,9 @@ import com.nucleo42.exception.InvalidCredentialsException;
 import com.nucleo42.usecase.Login;
 
 public class LoginImpl implements Login {
-    private LoadUserByEmailGateway loadUserByEmailGateway;
-    private HashCompare hashCompare;
-    private TokenGenerator tokenGenerator;
+    private final LoadUserByEmailGateway loadUserByEmailGateway;
+    private final HashCompare hashCompare;
+    private final TokenGenerator tokenGenerator;
 
     public LoginImpl(LoadUserByEmailGateway loadUserByEmailGateway, HashCompare hashCompare, TokenGenerator tokenGenerator) {
         this.loadUserByEmailGateway = loadUserByEmailGateway;
@@ -26,8 +26,6 @@ public class LoginImpl implements Login {
             throw new InvalidCredentialsException();
         }
 
-        this.tokenGenerator.generate(user.getId().toString());
-
-        return "";
+        return this.tokenGenerator.generate(user.getId().toString());
     }
 }
