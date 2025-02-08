@@ -2,6 +2,7 @@ package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.LoadUserByEmailGateway;
 import com.nucleo42.application.protocol.HashCompare;
+import com.nucleo42.application.protocol.TokenGenerator;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.InvalidCredentialsException;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -28,13 +30,16 @@ class LoginImplTest {
     @Mock
     private HashCompare hashCompare;
 
-    private User testUser = new User();
+    @Mock
+    private TokenGenerator tokenGenerator;
 
+    private final User testUser = new User();
     private final String emailTest = "test@mail.com";
     private final String passwordTest = "Password@123";
 
     @BeforeEach
     void setup() {
+        this.testUser.setId(UUID.randomUUID());
         this.testUser.setPassword("hashedPassword");
 
 
@@ -72,5 +77,13 @@ class LoginImplTest {
         when(this.hashCompare.compare(this.passwordTest, this.testUser.getPassword())).thenReturn(false);
 
         assertThrows(InvalidCredentialsException.class, () -> sut.login(this.emailTest, this.passwordTest));
+    }
+
+    @Test
+    @DisplayName("Should call TokenGenerator with correct value")
+    void test05() {
+        sut.login(this.emailTest, this.passwordTest);
+
+        verify(this.tokenGenerator).generate(this.testUser.getId().toString());
     }
 }
