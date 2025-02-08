@@ -32,11 +32,29 @@ class JwtAdapterTest {
 
             mockedJWT.when(JWT::create).thenReturn(mockedBuild);
             when(mockedBuild.sign(any(Algorithm.class))).thenReturn("tokenTest");
+            when(mockedBuild.withIssuer(anyString())).thenReturn(mockedBuild);
 
             sut.generate(payloadTest);
 
             verify(mockedBuild).sign(algorithm);
         }
     }
+
+    @Test
+    @DisplayName("Should sign token with issuer nucleo42")
+    void test02() {
+        try (var mockedJWT = mockStatic(JWT.class)) {
+            var mockedBuild = mock(JWTCreator.Builder.class);
+
+            mockedJWT.when(JWT::create).thenReturn(mockedBuild);
+            when(mockedBuild.sign(any(Algorithm.class))).thenReturn("tokenTest");
+            when(mockedBuild.withIssuer(anyString())).thenReturn(mockedBuild);
+
+            sut.generate(payloadTest);
+
+            verify(mockedBuild).withIssuer("nucleo42");
+        }
+    }
+
 
 }
