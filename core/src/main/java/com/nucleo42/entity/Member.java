@@ -45,9 +45,9 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
-                "user=" + user +
-                ", role=" + role +
-                '}';
+        return "Member {" +
+                "\n\tuser=" + user +
+                ", \n\trole=" + role +
+                "\n}";
     }
 }

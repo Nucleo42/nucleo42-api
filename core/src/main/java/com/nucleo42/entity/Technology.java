@@ -3,6 +3,7 @@ package com.nucleo42.entity;
 import java.util.Objects;
 
 public class Technology {
+    private Long id;
     private String name;
 
     public Technology() {
@@ -10,6 +11,14 @@ public class Technology {
 
     public Technology(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -24,18 +33,19 @@ public class Technology {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Technology that = (Technology) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
-        return "Technology{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Technology {" +
+                "\n\tid=" + id +
+                ", \n\tname='" + name + '\'' +
+                "\n}";
     }
 }
