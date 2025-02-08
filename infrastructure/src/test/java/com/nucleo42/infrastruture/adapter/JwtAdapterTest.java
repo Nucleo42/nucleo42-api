@@ -11,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +36,7 @@ class JwtAdapterTest {
         when(mockedBuild.withIssuer(anyString())).thenReturn(mockedBuild);
         when(mockedBuild.sign(any(Algorithm.class))).thenReturn("tokenTest");
         when(mockedBuild.withSubject(anyString())).thenReturn(mockedBuild);
+        when(mockedBuild.withExpiresAt(any(Instant.class))).thenReturn(mockedBuild);
     }
 
     @AfterEach
@@ -60,5 +64,13 @@ class JwtAdapterTest {
     void test03() {
             sut.generate(payloadTest);
             verify(mockedBuild).withSubject(payloadTest);
+    }
+
+    @Test
+    @DisplayName("Should sign token with correct expiration")
+    void test04() {
+        sut.generate(payloadTest);
+        var expiresAt = Instant.now().plus(Duration.ofHours(72));
+        verify(mockedBuild).withExpiresAt(expiresAt);
     }
 }
