@@ -74,7 +74,7 @@ public class SignUpController {
     @PostMapping
     public ResponseEntity<String> handle(@RequestBody @Valid SignUpRequestDTO dto) {
         try {
-            var user = new User(dto.firstName(), dto.lastName(), dto.email(), dto.password(), "", dto.acceptTerms(), null);
+            var user = new User(null, dto.firstName(), dto.lastName(), dto.email(), dto.password(), "", dto.acceptTerms(), null);
             var result = this.usecase.add(user);
             return ResponseEntity.created(null).body(result);
         } catch (UserAlreadyExistsException | AcceptTermsException ex) {
