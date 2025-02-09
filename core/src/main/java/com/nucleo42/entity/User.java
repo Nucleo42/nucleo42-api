@@ -2,25 +2,37 @@ package com.nucleo42.entity;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class User {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String biography;
+    private Boolean acceptTerms;
     private List<Skill> skills;
 
-    public User(String firstName, String lastName, String email, String password, String biography, List<Skill> skills) {
+    public User(String firstName, String lastName, String email, String password, String biography, Boolean acceptTerms, List<Skill> skills) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.biography = biography;
         this.skills = skills;
+        this.acceptTerms = acceptTerms;
     }
 
     public User() {
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -63,6 +75,14 @@ public class User {
         this.biography = biography;
     }
 
+    public Boolean getAcceptTerms() {
+        return acceptTerms;
+    }
+
+    public void setAcceptTerms(Boolean acceptTerms) {
+        this.acceptTerms = acceptTerms;
+    }
+
     public List<Skill> getSkills() {
         return skills;
     }
@@ -73,25 +93,27 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
+
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(biography, user.biography) && Objects.equals(skills, user.skills);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(biography, user.biography) && Objects.equals(skills, user.skills);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, password, biography, skills);
+        return Objects.hash(id, firstName, lastName, email, password, biography, skills);
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", biography='" + biography + '\'' +
-                ", skills=" + skills +
-                '}';
+        return "User {" +
+                "\n\tid=" + id +
+                ", \n\tfirstName='" + firstName + '\'' +
+                ", \n\tlastName='" + lastName + '\'' +
+                ", \n\temail='" + email + '\'' +
+                ", \n\tpassword='" + password + '\'' +
+                ", \n\tbiography='" + biography + '\'' +
+                ", \n\tskills=" + skills +
+                "\n}";
     }
 }

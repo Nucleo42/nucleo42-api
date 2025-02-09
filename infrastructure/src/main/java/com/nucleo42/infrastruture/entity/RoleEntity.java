@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +21,9 @@ public class RoleEntity {
 
     @Column(nullable = false, length = 30)
     private String name;
+
+    @OneToMany(mappedBy = "role")
+    private List<ProjectMemberEntity> projectMembers;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
