@@ -40,4 +40,12 @@ class CreateProjectGatewayImplTest {
         createProjectGateway.create(project);
         verify(projectEntityRepository).save(projectEntity);
     }
+
+    @Test
+    @DisplayName("Should returns true on success")
+    void test02() {
+        when(projectMapper.toProjectEntity(project)).thenReturn(projectEntity);
+        Boolean result = createProjectGateway.create(project);
+        assert result.equals(true);
+    }
 }
