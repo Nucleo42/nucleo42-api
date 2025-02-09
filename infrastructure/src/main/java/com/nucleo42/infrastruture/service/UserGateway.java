@@ -31,7 +31,6 @@ public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway {
 
     @Override
     public Optional<User> load(String email) {
-        this.repository.findByEmail(email);
-        return Optional.empty();
+        return this.repository.findByEmail(email).map(UserMapper::toDomain);
     }
 }
