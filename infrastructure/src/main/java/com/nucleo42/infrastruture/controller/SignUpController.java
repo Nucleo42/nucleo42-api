@@ -61,11 +61,11 @@ public class SignUpController {
                     examples = @ExampleObject(
                             value = """
                                     {
-                                        "firstName": "John",
-                                        "lastName": "Doe",
+                                        "first_name": "John",
+                                        "last_name": "Doe",
                                         "email": "johndoe@mail.com",
                                         "password": "Password@1234",
-                                        "acceptTerms": true
+                                        "accept_terms": true
                                     }
                                     """
                     )
