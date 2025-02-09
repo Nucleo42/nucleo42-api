@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -105,6 +107,16 @@ class UserGatewayTest {
             var result = sut.load(user.getEmail());
 
             assert result.isEmpty();
+        }
+
+        @Test
+        @DisplayName("Should return Optional.of(User) if UserRepository.findByEmail returns UserEntity")
+        void test03() {
+            when(repository.findByEmail(user.getEmail())).thenReturn(Optional.of(userEntity));
+
+            var result = sut.load(user.getEmail());
+
+            assert result.isPresent();
         }
     }
 }
