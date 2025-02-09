@@ -53,4 +53,11 @@ class CreateProjectUseCaseImplTest {
         when(createProjectGateway.create(project)).thenReturn(false);
         assertThrows(InternalServerErrorException.class, () -> createProjectUseCase.create(project));
     }
+
+    @Test
+    @DisplayName("Should return success message when ICreateProjectGateway returns true")
+    void test3() {
+        when(createProjectGateway.create(project)).thenReturn(true);
+        assertEquals("Project created successfully", createProjectUseCase.create(project));
+    }
 }
