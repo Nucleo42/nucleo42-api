@@ -3,6 +3,7 @@ package com.nucleo42.entity;
 import java.util.Objects;
 
 public class Role {
+    private Long id;
     private String name;
 
     public Role(String name) {
@@ -10,6 +11,14 @@ public class Role {
     }
 
     public Role() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -22,20 +31,22 @@ public class Role {
 
     @Override
     public boolean equals(Object o) {
+
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(name, role.name);
+        return Objects.equals(id, role.id) && Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
-        return "Role{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Role {" +
+                "\n\tid=" + id +
+                ", \n\tname='" + name + '\'' +
+                "\n}";
     }
 }

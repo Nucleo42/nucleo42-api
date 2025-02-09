@@ -2,8 +2,10 @@ package com.nucleo42.entity;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Project {
+    private UUID id;
     private String name;
     private String description;
     private int vacancies;
@@ -21,6 +23,14 @@ public class Project {
     }
 
     public Project() {
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -73,25 +83,27 @@ public class Project {
 
     @Override
     public boolean equals(Object o) {
+
         if (o == null || getClass() != o.getClass()) return false;
         Project project = (Project) o;
-        return vacancies == project.vacancies && Objects.equals(name, project.name) && Objects.equals(description, project.description) && Objects.equals(goal, project.goal) && Objects.equals(technologies, project.technologies) && Objects.equals(members, project.members);
+        return vacancies == project.vacancies && Objects.equals(id, project.id) && Objects.equals(name, project.name) && Objects.equals(description, project.description) && Objects.equals(goal, project.goal) && Objects.equals(technologies, project.technologies) && Objects.equals(members, project.members);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, vacancies, goal, technologies, members);
+        return Objects.hash(id, name, description, vacancies, goal, technologies, members);
     }
 
     @Override
     public String toString() {
-        return "Project{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", vacancies=" + vacancies +
-                ", goal='" + goal + '\'' +
-                ", technologies=" + technologies +
-                ", members=" + members +
-                '}';
+        return "Project {" +
+                "\n\tid=" + id +
+                ", \n\tname='" + name + '\'' +
+                ", \n\tdescription='" + description + '\'' +
+                ", \n\tvacancies=" + vacancies +
+                ", \n\tgoal='" + goal + '\'' +
+                ", \n\ttechnologies=" + technologies +
+                ", \n\tmembers=" + members +
+                "\n}";
     }
 }
