@@ -1,4 +1,4 @@
-package com.nucleo42.entity;
+package com.nucleo42.infrastruture.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,18 +8,32 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "roles")
-public class RoleEntity {
+@Entity(name = "projects")
+public class ProjectEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Integer vacancies;
+
+    @Column(nullable = false)
+    private String goal;
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectMemberEntity> projectMembers;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

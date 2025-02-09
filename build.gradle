@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.discord'
+group = 'com.nucleo42'
 version = '1.0-SNAPSHOT'
 
 repositories {

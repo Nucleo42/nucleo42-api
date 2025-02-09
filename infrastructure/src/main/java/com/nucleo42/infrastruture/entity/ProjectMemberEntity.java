@@ -1,4 +1,4 @@
-package com.nucleo42.entity;
+package com.nucleo42.infrastruture.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
