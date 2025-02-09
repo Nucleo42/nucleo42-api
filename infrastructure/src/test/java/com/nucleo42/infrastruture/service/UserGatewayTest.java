@@ -98,5 +98,13 @@ class UserGatewayTest {
 
             verify(repository).findByEmail(user.getEmail());
         }
+
+        @Test
+        @DisplayName("Should return Optional.empty if UserRepository.findByEmail returns null")
+        void test02() {
+            var result = sut.load(user.getEmail());
+
+            assert result.isEmpty();
+        }
     }
 }
