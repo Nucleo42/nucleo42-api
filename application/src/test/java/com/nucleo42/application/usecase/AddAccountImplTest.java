@@ -27,7 +27,7 @@ class AddAccountImplTest {
     @Mock
     private HashGenerator hashGenerator;
 
-    private final User testUser = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
+    private final User testUser = new User(null, "John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
 
     @BeforeEach
     void setup() {
@@ -76,7 +76,7 @@ class AddAccountImplTest {
     @Test
     @DisplayName("Should throw AcceptTermsException when user has not accepted terms")
     void test06() {
-        var user = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, false, null);
+        var user = new User(null, "John", "Doe", "johndoe@mail.com", "Password@123", null, false, null);
 
         assertThrows(AcceptTermsException.class, () -> sut.add(user));
     }

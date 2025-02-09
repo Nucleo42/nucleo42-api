@@ -17,7 +17,7 @@ public class SignUpConfig {
     }
 
     @Bean
-    public HashGenerator hasher() {
+    public HashGenerator hashGenerator() {
         return new BCryptAdapter();
     }
 
