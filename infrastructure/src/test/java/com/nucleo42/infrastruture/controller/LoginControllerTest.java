@@ -67,4 +67,13 @@ class LoginControllerTest {
 
     }
 
+    @Test
+    @DisplayName("Should return 401 on invalid credentials")
+    void test02() throws Exception {
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new LoginRequestDTO("test@mail.com", "invalid_password"))))
+                .andExpect(status().isUnauthorized())
+                .andExpect(result -> result.getResponse().getContentAsString().contains("Invalid credentials"));
+    }
 }
