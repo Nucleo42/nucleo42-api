@@ -34,7 +34,7 @@ class CreateProjectGatewayImplTest {
     private Project project;
 
     @Test
-    @DisplayName("Should call IProjectEntityRepository correctly")
+    @DisplayName("Should call IProjectEntityRepository.save correctly")
     void test01() {
         when(projectMapper.toProjectEntity(project)).thenReturn(projectEntity);
         createProjectGateway.create(project);
