@@ -4,7 +4,9 @@ import com.nucleo42.entity.User;
 import com.nucleo42.infrastruture.entity.UserEntity;
 import com.nucleo42.infrastruture.mapper.UserMapper;
 import com.nucleo42.infrastruture.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,53 +29,74 @@ class UserGatewayTest {
     @Mock
     private User user;
 
-    @Test
-    @DisplayName("Should call UserRepository.save with correct value")
-    void test01() {
-        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
-            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+    @BeforeEach
+    void setup() {
+        user.setEmail("test@mail.com");
+    }
 
-            sut.add(user);
+    @Nested
+    @DisplayName("add method")
+    class Add {
+        @Test
+        @DisplayName("Should call UserRepository.save with correct value")
+        void test01() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
 
-            verify(repository).save(userEntity);
+                sut.add(user);
+
+                verify(repository).save(userEntity);
+            }
+        }
+
+        @Test
+        @DisplayName("Should call UserRepository.existsByEmail with correct value")
+        void test02() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+
+                sut.add(user);
+
+                verify(repository).existsByEmail(userEntity.getEmail());
+            }
+        }
+
+        @Test
+        @DisplayName("Should return false if UserRepository.existsByEmail returns true")
+        void test03() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+                when(repository.existsByEmail(userEntity.getEmail())).thenReturn(true);
+
+                var result = sut.add(user);
+
+                assert result.equals(false);
+            }
+        }
+
+        @Test
+        @DisplayName("Should return true on success")
+        void test04() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+                when(repository.existsByEmail(userEntity.getEmail())).thenReturn(false);
+
+                var result = sut.add(user);
+
+                assert result.equals(true);
+            }
         }
     }
 
-    @Test
-    @DisplayName("Should call UserRepository.existsByEmail with correct value")
-    void test02() {
-        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
-            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
+    @Nested
+    @DisplayName("load method")
+    class Load {
+        @Test
+        @DisplayName("Should call UserRepository.findByEmail with correct value")
+        void test01() {
+            sut.load(user.getEmail());
 
-            sut.add(user);
-
-            verify(repository).existsByEmail(userEntity.getEmail());
-        }
-    }
-
-    @Test
-    @DisplayName("Should return false if UserRepository.existsByEmail returns true")
-    void test03() {
-        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
-            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
-            when(repository.existsByEmail(userEntity.getEmail())).thenReturn(true);
-
-            var result = sut.add(user);
-
-            assert result.equals(false);
-        }
-    }
-
-    @Test
-    @DisplayName("Should return true on success")
-    void test04() {
-        try (var mockedUserMapper = mockStatic(UserMapper.class)) {
-            mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntity);
-            when(repository.existsByEmail(userEntity.getEmail())).thenReturn(false);
-
-            var result = sut.add(user);
-
-            assert result.equals(true);
+            verify(repository).findByEmail(user.getEmail());
         }
     }
 }
