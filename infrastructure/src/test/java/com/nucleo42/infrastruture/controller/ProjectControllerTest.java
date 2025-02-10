@@ -48,4 +48,14 @@ class ProjectControllerTest {
                         .content(objectMapper.writeValueAsString(createProjectRequestDTO)))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    @DisplayName("Should return 404 when request is invalid")
+    void test02() throws Exception {
+        createProjectRequestDTO = new CreateProjectRequestDTO("", "", 0, "");
+        mockMvc.perform(post("/project")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createProjectRequestDTO)))
+                .andExpect(status().isBadRequest());
+    }
 }
