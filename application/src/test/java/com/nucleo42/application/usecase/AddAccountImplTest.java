@@ -1,7 +1,7 @@
 package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.AddAccountGateway;
-import com.nucleo42.application.protocol.Hasher;
+import com.nucleo42.application.protocol.HashGenerator;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.AcceptTermsException;
 import com.nucleo42.exception.UserAlreadyExistsException;
@@ -25,14 +25,14 @@ class AddAccountImplTest {
     private AddAccountGateway addAccountGateway;
 
     @Mock
-    private Hasher hasher;
+    private HashGenerator hashGenerator;
 
-    private final User testUser = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
+    private final User testUser = new User(null, "John", "Doe", "johndoe@mail.com", "Password@123", null, true, null);
 
     @BeforeEach
     void setup() {
         lenient().when(addAccountGateway.add(testUser)).thenReturn(true);
-        lenient().when(hasher.hash(testUser.getPassword())).thenReturn("hashedPassword");
+        lenient().when(hashGenerator.hash(testUser.getPassword())).thenReturn("hashedPassword");
     }
 
     @Test
@@ -56,7 +56,7 @@ class AddAccountImplTest {
     void test03() {
         sut.add(testUser);
 
-        verify(hasher).hash("Password@123");
+        verify(hashGenerator).hash("Password@123");
     }
 
     @Test
@@ -76,7 +76,7 @@ class AddAccountImplTest {
     @Test
     @DisplayName("Should throw AcceptTermsException when user has not accepted terms")
     void test06() {
-        var user = new User("John", "Doe", "johndoe@mail.com", "Password@123", null, false, null);
+        var user = new User(null, "John", "Doe", "johndoe@mail.com", "Password@123", null, false, null);
 
         assertThrows(AcceptTermsException.class, () -> sut.add(user));
     }

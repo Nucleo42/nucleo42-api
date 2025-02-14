@@ -1,11 +1,10 @@
 package com.nucleo42.infrastruture.controller;
 
-import com.nucleo42.entity.User;
-import com.nucleo42.exception.AcceptTermsException;
-import com.nucleo42.exception.UserAlreadyExistsException;
+import com.nucleo42.exception.InvalidCredentialsException;
 import com.nucleo42.infrastruture.annotation.ApiRequestBody;
-import com.nucleo42.infrastruture.dto.SignUpRequestDTO;
-import com.nucleo42.usecase.AddAccount;
+import com.nucleo42.infrastruture.dto.LoginRequestDTO;
+import com.nucleo42.infrastruture.dto.LoginResponseDTO;
+import com.nucleo42.usecase.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -20,30 +19,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/signup")
-public class SignUpController {
+@RequestMapping("/login")
+public class LoginController {
     @Autowired
-    private AddAccount usecase;
+    private Login usecase;
 
     @Operation(
-            description = "Create a new account",
-            summary = "Sign up"
+            description = "Login to the system",
+            summary = "Login"
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "201",
-                    description = "Account created",
+                    responseCode = "200",
+                    description = "Login successful",
                     content = @Content(
-                            mediaType = "text/plain",
-                            examples = @ExampleObject(value = "User registered successfully")
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = """
+                                    {
+                                        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                    }
+                                    """)
                     )
             ),
             @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request",
+                    responseCode = "401",
+                    description = "Unauthorized",
                     content = @Content(
                             mediaType = "text/plain",
-                            examples = @ExampleObject(value = "User already exists")
+                            examples = @ExampleObject(value = "Invalid credentials")
                     )
             ),
             @ApiResponse(
@@ -61,27 +64,23 @@ public class SignUpController {
                     examples = @ExampleObject(
                             value = """
                                     {
-                                        "first_name": "John",
-                                        "last_name": "Doe",
                                         "email": "johndoe@mail.com",
-                                        "password": "Password@1234",
-                                        "accept_terms": true
+                                        "password": "Password@1234"
                                     }
                                     """
                     )
             )
     )
     @PostMapping
-    public ResponseEntity<String> handle(@RequestBody @Valid SignUpRequestDTO dto) {
-        try {
-            var user = new User(null, dto.firstName(), dto.lastName(), dto.email(), dto.password(), "", dto.acceptTerms(), null);
-            var result = this.usecase.add(user);
-            return ResponseEntity.created(null).body(result);
-        } catch (UserAlreadyExistsException | AcceptTermsException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.internalServerError().body("Internal server error");
-        }
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginRequestDTO dto) {
+            try {
+                var token = this.usecase.login(dto.email(), dto.password());
+                return ResponseEntity.ok(new LoginResponseDTO(token));
+            } catch (InvalidCredentialsException ex) {
+                return ResponseEntity.status(401).body(ex.getMessage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return ResponseEntity.status(500).body("Internal server error");
+            }
     }
 }
