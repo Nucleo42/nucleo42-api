@@ -2,6 +2,8 @@ package com.nucleo42.service;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.nucleo42.gateway.FindUserProfileByIdGateway;
@@ -12,14 +14,10 @@ import com.nucleo42.mapper.UserMapper;
 import com.nucleo42.repository.UserEntityRepository;
 
 @Service
+// @Primary
 public class FindUserProfileByIdGatewayImpl implements FindUserProfileByIdGateway {
-    private final UserEntityRepository userRepository;
-    private final UserMapper userMapper;
-
-    public FindUserProfileByIdGatewayImpl(UserEntityRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
+    @Autowired
+    private UserEntityRepository userRepository;
 
     @Override
     public User findUserById(UUID id) {
@@ -27,7 +25,7 @@ public class FindUserProfileByIdGatewayImpl implements FindUserProfileByIdGatewa
             () -> new UserDoesNotExistException()
         );
 
-        User user = userMapper.toUser(userEntity);
+        User user = UserMapper.toUser(userEntity);
         return user;
     }
 
