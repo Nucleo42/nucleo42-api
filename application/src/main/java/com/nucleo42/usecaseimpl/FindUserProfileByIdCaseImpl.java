@@ -17,7 +17,4 @@ public class FindUserProfileByIdCaseImpl implements FindUserProfileByIdCase {
     public User findById(UUID userId) {
         return findUser.findUserById(userId);
     }
-
-
-    
 }
