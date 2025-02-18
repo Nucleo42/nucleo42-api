@@ -2,7 +2,6 @@ package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.entity.Project;
-import com.nucleo42.exception.InternalServerErrorException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,13 +44,6 @@ class AddProjectImplTest {
     void test01() {
         createProjectUseCase.create(project);
         verify(createProjectGateway).create(project);
-    }
-
-    @Test
-    @DisplayName("Should throw InternalServerErrorException when ICreateProjectGateway returns false")
-    void test2() {
-        when(createProjectGateway.create(project)).thenReturn(false);
-        assertThrows(InternalServerErrorException.class, () -> createProjectUseCase.create(project));
     }
 
     @Test

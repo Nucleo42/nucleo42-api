@@ -1,7 +1,6 @@
 package com.nucleo42.infrastruture.controller;
 
 import com.nucleo42.entity.Project;
-import com.nucleo42.exception.InternalServerErrorException;
 import com.nucleo42.infrastruture.annotation.ApiRequestBody;
 import com.nucleo42.infrastruture.dto.CreateProjectRequestDTO;
 import com.nucleo42.usecase.AddProject;
@@ -72,14 +71,9 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<String> create(@RequestBody @Valid CreateProjectRequestDTO dto)
     {
-        try {
-            var project = new Project(dto.name(), dto.description(), dto.vacancies(), dto.goal(), new ArrayList<>(), new ArrayList<>());
-            var result = createProjectUseCase.create(project);
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
-        } catch (InternalServerErrorException e)
-        {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        var project = new Project(dto.name(), dto.description(), dto.vacancies(), dto.goal(), new ArrayList<>(), new ArrayList<>());
+        var result = createProjectUseCase.create(project);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
 }

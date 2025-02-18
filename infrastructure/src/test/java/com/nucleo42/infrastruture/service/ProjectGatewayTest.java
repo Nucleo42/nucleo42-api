@@ -1,7 +1,6 @@
 package com.nucleo42.infrastruture.service;
 
 import com.nucleo42.entity.Project;
-import com.nucleo42.exception.InternalServerErrorException;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
 import com.nucleo42.infrastruture.mapper.ProjectMapper;
 import com.nucleo42.infrastruture.repository.ProjectRepository;
@@ -47,13 +46,5 @@ class ProjectGatewayTest {
         when(projectMapper.toProjectEntity(project)).thenReturn(projectEntity);
         Boolean result = createProjectGateway.create(project);
         assert result.equals(true);
-    }
-
-    @Test
-    @DisplayName("Should return false when InternalServerErrorException occurs")
-    void test03() {
-        when(createProjectGateway.create(project)).thenThrow(new InternalServerErrorException());
-        Boolean result = createProjectGateway.create(project);
-        assert result.equals(false);
     }
 }

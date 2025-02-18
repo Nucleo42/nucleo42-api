@@ -2,7 +2,6 @@ package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.entity.Project;
-import com.nucleo42.exception.InternalServerErrorException;
 import com.nucleo42.usecase.AddProject;
 
 public class AddProjectImpl implements AddProject {
@@ -16,13 +15,7 @@ public class AddProjectImpl implements AddProject {
 
     @Override
     public String create(Project project) {
-        var result = createProjectGateway.create(project);
-
-        if (!result)
-        {
-           throw new InternalServerErrorException();
-        }
-
+        createProjectGateway.create(project);
         return "Project created successfully";
     }
 }
