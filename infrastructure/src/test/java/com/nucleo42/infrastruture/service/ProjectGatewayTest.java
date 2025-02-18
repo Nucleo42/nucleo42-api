@@ -11,16 +11,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+import java.util.UUID;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectGatewayTest {
 
     @InjectMocks
-    private ProjectGateway createProjectGateway;
+    private ProjectGateway projectGateway;
 
     @Mock
-    private ProjectRepository projectEntityRepository;
+    private ProjectRepository projectRepository;
 
     @Mock
     private ProjectEntity projectEntity;
@@ -29,12 +32,12 @@ class ProjectGatewayTest {
     private Project project;
 
     @Test
-    @DisplayName("Should call IProjectEntityRepository.save correctly")
+    @DisplayName("Should call ProjectRepository.save correctly")
     void test01() {
         try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
             mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
-            createProjectGateway.create(project);
-            verify(projectEntityRepository).save(projectEntity);
+            projectGateway.create(project);
+            verify(projectRepository).save(projectEntity);
         }
     }
 
@@ -43,8 +46,20 @@ class ProjectGatewayTest {
     void test02() {
         try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
             mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
-            Boolean result = createProjectGateway.create(project);
+            Boolean result = projectGateway.create(project);
             assert result.equals(true);
+        }
+    }
+
+    @Test
+    @DisplayName("Should call ProjectRepository.findAll correctly")
+    void test03() {
+        try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
+            mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
+
+            projectGateway.findAll();
+
+            verify(projectRepository).findAll();
         }
     }
 }
