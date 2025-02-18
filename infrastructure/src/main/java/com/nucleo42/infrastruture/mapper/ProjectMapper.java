@@ -2,12 +2,10 @@ package com.nucleo42.infrastruture.mapper;
 
 import com.nucleo42.entity.Project;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProjectMapper {
 
-    public ProjectEntity toProjectEntity(Project project)
+    public static ProjectEntity toEntity(Project project)
     {
         return new ProjectEntity(
                 null,
@@ -18,6 +16,21 @@ public class ProjectMapper {
                 null,
                 null,
                 null
+        );
+    }
+
+    public static Project fromEntity(ProjectEntity projectEntity)
+    {
+        return new Project(
+                projectEntity.getId(),
+                projectEntity.getName(),
+                projectEntity.getDescription(),
+                projectEntity.getVacancies(),
+                projectEntity.getGoal(),
+                null,
+                null,
+                projectEntity.getCreatedAt(),
+                projectEntity.getUpdatedAt()
         );
     }
 }

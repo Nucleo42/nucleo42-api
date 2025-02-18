@@ -12,12 +12,10 @@ public class ProjectGateway implements AddProjectGateway {
 
     @Autowired
     private ProjectRepository projectEntityRepository;
-    @Autowired
-    private ProjectMapper projectMapper;
 
     @Override
     public Boolean create(Project project) {
-        projectEntityRepository.save(projectMapper.toProjectEntity(project));
+        projectEntityRepository.save(ProjectMapper.toEntity(project));
         return true;
     }
 }

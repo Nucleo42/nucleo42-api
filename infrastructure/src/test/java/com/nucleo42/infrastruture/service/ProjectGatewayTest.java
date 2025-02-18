@@ -11,8 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectGatewayTest {
@@ -24,9 +23,6 @@ class ProjectGatewayTest {
     private ProjectRepository projectEntityRepository;
 
     @Mock
-    private ProjectMapper projectMapper;
-
-    @Mock
     private ProjectEntity projectEntity;
 
     @Mock
@@ -35,16 +31,20 @@ class ProjectGatewayTest {
     @Test
     @DisplayName("Should call IProjectEntityRepository.save correctly")
     void test01() {
-        when(projectMapper.toProjectEntity(project)).thenReturn(projectEntity);
-        createProjectGateway.create(project);
-        verify(projectEntityRepository).save(projectEntity);
+        try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
+            mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
+            createProjectGateway.create(project);
+            verify(projectEntityRepository).save(projectEntity);
+        }
     }
 
     @Test
     @DisplayName("Should returns true on success")
     void test02() {
-        when(projectMapper.toProjectEntity(project)).thenReturn(projectEntity);
-        Boolean result = createProjectGateway.create(project);
-        assert result.equals(true);
+        try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
+            mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
+            Boolean result = createProjectGateway.create(project);
+            assert result.equals(true);
+        }
     }
 }
