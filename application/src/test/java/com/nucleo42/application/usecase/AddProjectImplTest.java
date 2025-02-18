@@ -1,6 +1,6 @@
 package com.nucleo42.application.usecase;
 
-import com.nucleo42.application.gateway.ICreateProjectGateway;
+import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.entity.Project;
 import com.nucleo42.exception.InternalServerErrorException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreateProjectUseCaseImplTest {
+class AddProjectImplTest {
 
     @InjectMocks
-    private CreateProjectUseCaseImpl createProjectUseCase;
+    private AddProjectImpl createProjectUseCase;
 
     @Mock
-    private ICreateProjectGateway createProjectGateway;
+    private AddProjectGateway createProjectGateway;
 
     private Project project;
 

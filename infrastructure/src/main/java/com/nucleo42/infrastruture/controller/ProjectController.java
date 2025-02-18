@@ -1,12 +1,10 @@
 package com.nucleo42.infrastruture.controller;
 
-import com.nucleo42.application.usecase.CreateProjectUseCaseImpl;
 import com.nucleo42.entity.Project;
 import com.nucleo42.exception.InternalServerErrorException;
 import com.nucleo42.infrastruture.annotation.ApiRequestBody;
 import com.nucleo42.infrastruture.dto.CreateProjectRequestDTO;
-import com.nucleo42.infrastruture.service.CreateProjectGatewayImpl;
-import com.nucleo42.usecase.ICreateProjectUseCase;
+import com.nucleo42.usecase.AddProject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 public class ProjectController {
 
     @Autowired
-    private ICreateProjectUseCase createProjectUseCase;
+    private AddProject createProjectUseCase;
 
     @Operation(
             description = "Create a new project",

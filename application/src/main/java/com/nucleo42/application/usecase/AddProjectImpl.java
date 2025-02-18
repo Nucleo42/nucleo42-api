@@ -1,15 +1,15 @@
 package com.nucleo42.application.usecase;
 
-import com.nucleo42.application.gateway.ICreateProjectGateway;
+import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.entity.Project;
 import com.nucleo42.exception.InternalServerErrorException;
-import com.nucleo42.usecase.ICreateProjectUseCase;
+import com.nucleo42.usecase.AddProject;
 
-public class CreateProjectUseCaseImpl implements ICreateProjectUseCase {
+public class AddProjectImpl implements AddProject {
 
-    private final ICreateProjectGateway createProjectGateway;
+    private final AddProjectGateway createProjectGateway;
 
-    public CreateProjectUseCaseImpl(ICreateProjectGateway createProjectGateway)
+    public AddProjectImpl(AddProjectGateway createProjectGateway)
     {
         this.createProjectGateway = createProjectGateway;
     }

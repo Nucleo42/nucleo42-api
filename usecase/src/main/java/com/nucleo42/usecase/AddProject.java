@@ -2,6 +2,6 @@ package com.nucleo42.usecase;
 
 import com.nucleo42.entity.Project;
 
-public interface ICreateProjectUseCase {
+public interface AddProject {
     String create(Project project);
 }

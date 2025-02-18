@@ -1,11 +1,10 @@
 package com.nucleo42.infrastruture.service;
 
-import com.nucleo42.application.gateway.ICreateProjectGateway;
 import com.nucleo42.entity.Project;
 import com.nucleo42.exception.InternalServerErrorException;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
 import com.nucleo42.infrastruture.mapper.ProjectMapper;
-import com.nucleo42.infrastruture.repository.IProjectEntityRepository;
+import com.nucleo42.infrastruture.repository.ProjectRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +16,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CreateProjectGatewayImplTest {
+class ProjectGatewayTest {
 
     @InjectMocks
-    private CreateProjectGatewayImpl createProjectGateway;
+    private ProjectGateway createProjectGateway;
 
     @Mock
-    private IProjectEntityRepository projectEntityRepository;
+    private ProjectRepository projectEntityRepository;
 
     @Mock
     private ProjectMapper projectMapper;
