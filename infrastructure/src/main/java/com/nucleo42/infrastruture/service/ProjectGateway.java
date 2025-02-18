@@ -14,17 +14,17 @@ import java.util.List;
 public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway {
 
     @Autowired
-    private ProjectRepository projectEntityRepository;
+    private ProjectRepository projectRepository;
 
     @Override
     public Boolean create(Project project) {
-        projectEntityRepository.save(ProjectMapper.toEntity(project));
+        projectRepository.save(ProjectMapper.toEntity(project));
         return true;
     }
-    
+
     @Override
     public List<Project> findAll() {
-        return projectEntityRepository.findAll().stream().map(ProjectMapper::fromEntity).toList();
+        return projectRepository.findAll().stream().map(ProjectMapper::fromEntity).toList();
     }
 }
 
