@@ -1,13 +1,11 @@
 package com.nucleo42.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nucleo42.gateway.UpdateUserProfileGateway;
-import com.nucleo42.entity.SkillEntity;
 import com.nucleo42.entity.User;
 import com.nucleo42.mapper.UserMapper;
 import com.nucleo42.repository.UserEntityRepository;
@@ -41,6 +39,7 @@ public class UpdateUserProfileGatewayImpl implements UpdateUserProfileGateway {
         user.setEmail(userUpdate.getEmail());
         user.setPassword(userUpdate.getPassword());
         user.setBiography(userUpdate.getBiography());
+        user.setSkills(UserMapper.toSkillEntity(userUpdate.getSkills()));
 
         return user;
     }
