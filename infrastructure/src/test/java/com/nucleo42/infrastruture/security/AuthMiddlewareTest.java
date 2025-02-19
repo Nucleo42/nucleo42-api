@@ -29,4 +29,12 @@ class AuthMiddlewareTest {
         sut.doFilterInternal(request, response, filterChain);
         assertEquals(200, response.getStatus());
     }
+
+    @Test
+    @DisplayName("Should return 401 if header is missing")
+    void test02() throws Exception {
+        request.setRequestURI("/private-route");
+        sut.doFilterInternal(request, response, filterChain);
+        assertEquals(401, response.getStatus());
+    }
 }
