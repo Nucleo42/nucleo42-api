@@ -33,7 +33,11 @@ public class AuthMiddleware extends OncePerRequestFilter {
         }
 
         var token = header.substring(7);
-        this.tokenDecoder.decode(token);
+        var subject = this.tokenDecoder.decode(token);
+        if (subject == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
         filterChain.doFilter(request, response);
     }
