@@ -17,8 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.nucleo42.dto.request.SkillEnum;
 import com.nucleo42.entity.SkillEntity;
 import com.nucleo42.entity.UserEntity;
+import com.nucleo42.exception.SkillDoesNotExistException;
 import com.nucleo42.exception.UserDoesNotExistException;
 import com.nucleo42.repository.UserEntityRepository;
 import com.nucleo42.service.UpdateUserProfileGatewayImpl;
@@ -63,4 +65,16 @@ public class UpdateUserProfileGatewayImplTest {
         UserEntity userEntity = null;
         assertEquals(userEntity, null);
     }
+
+    @Test
+    void skillUserDoesNotExist() {
+        Assertions.assertThrows(SkillDoesNotExistException.class,
+                () -> SkillEnum.fromId(1000L));
+    }
+    @Test
+    void skillExist(){
+        String s = SkillEnum.fromId(1L);
+        Assertions.assertEquals(s, "Comunicação");
+    }
+
 }
