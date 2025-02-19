@@ -37,4 +37,15 @@ class AuthMiddlewareTest {
         sut.doFilterInternal(request, response, filterChain);
         assertEquals(401, response.getStatus());
     }
+
+    @Test
+    @DisplayName("Should return 401 if header not starts with Bearer")
+    void test03() throws Exception {
+        request.setRequestURI("/private-route");
+        request.addHeader("Authorization", "token");
+
+        sut.doFilterInternal(request, response, filterChain);
+
+        assertEquals(401, response.getStatus());
+    }
 }
