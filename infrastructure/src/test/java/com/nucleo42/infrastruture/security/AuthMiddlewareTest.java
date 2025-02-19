@@ -1,9 +1,11 @@
 package com.nucleo42.infrastruture.security;
 
+import com.nucleo42.application.protocol.TokenDecoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -11,12 +13,16 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class AuthMiddlewareTest {
     @InjectMocks
     private AuthMiddleware sut;
+
+    @Mock
+    private TokenDecoder tokenDecoder;
 
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private MockHttpServletResponse response = new MockHttpServletResponse();
@@ -47,5 +53,16 @@ class AuthMiddlewareTest {
         sut.doFilterInternal(request, response, filterChain);
 
         assertEquals(401, response.getStatus());
+    }
+
+    @Test
+    @DisplayName("Should call TokenDecoder with correct value")
+    void test04() throws Exception {
+        request.setRequestURI("/private-route");
+        request.addHeader("Authorization", "Bearer token");
+
+        sut.doFilterInternal(request, response, filterChain);
+
+        verify(tokenDecoder).decode("token");
     }
 }
