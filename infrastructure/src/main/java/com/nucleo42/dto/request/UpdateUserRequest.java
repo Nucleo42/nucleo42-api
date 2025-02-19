@@ -1,7 +1,10 @@
 package com.nucleo42.dto.request;
 
+import java.util.List;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 public record UpdateUserRequest(
         @NotBlank(message = "The 'firstName' field is required")
@@ -14,6 +17,8 @@ public record UpdateUserRequest(
         @NotBlank(message = "The 'password' field is required")
         String password,
         @NotBlank(message = "The 'biography' field is required")
-        String biography
+        String biography,
+        @NotEmpty(message = "The 'skills' field is required")
+        List<SkillRequest> skills
         ){    
 }
