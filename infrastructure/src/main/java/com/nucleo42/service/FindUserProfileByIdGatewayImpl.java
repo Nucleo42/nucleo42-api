@@ -3,7 +3,6 @@ package com.nucleo42.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.nucleo42.gateway.FindUserProfileByIdGateway;
@@ -14,7 +13,6 @@ import com.nucleo42.mapper.UserMapper;
 import com.nucleo42.repository.UserEntityRepository;
 
 @Service
-// @Primary
 public class FindUserProfileByIdGatewayImpl implements FindUserProfileByIdGateway {
     @Autowired
     private UserEntityRepository userRepository;
