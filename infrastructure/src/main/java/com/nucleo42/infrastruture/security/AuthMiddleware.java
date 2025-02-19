@@ -21,6 +21,12 @@ public class AuthMiddleware extends OncePerRequestFilter {
             return;
         }
 
+        var header = request.getHeader("Authorization");
+        if (header == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
         filterChain.doFilter(request, response);
     }
 }
