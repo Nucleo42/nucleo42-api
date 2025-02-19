@@ -47,6 +47,7 @@ class JwtAdapterTest {
         lenient().when(JWT.require(algorithm)).thenReturn(mockedVerification);
         lenient().when(mockedVerification.build()).thenReturn(mockedVerifier);
         lenient().when(mockedVerifier.verify("tokenTest")).thenReturn(mockedDecodedJWT);
+        lenient().when(mockedDecodedJWT.getSubject()).thenReturn(payloadTest);
     }
 
     @AfterEach
@@ -111,6 +112,13 @@ class JwtAdapterTest {
 
             var result = sut.decode("tokenTest");
             assert result == null;
+        }
+
+        @Test
+        @DisplayName("Should return subject when token is valid")
+        void test03() {
+            var result = sut.decode("tokenTest");
+            assert result.equals(payloadTest);
         }
     }
 }
