@@ -78,4 +78,16 @@ class AuthMiddlewareTest {
 
         assertEquals(401, response.getStatus());
     }
+
+    @Test
+    @DisplayName("Should set user_id in request attribute")
+    void test06() throws Exception {
+        request.setRequestURI("/private-route");
+        request.addHeader("Authorization", "Bearer token");
+        when(tokenDecoder.decode("token")).thenReturn("subject");
+
+        sut.doFilterInternal(request, response, filterChain);
+
+        assertEquals("subject", request.getAttribute("user_id"));
+    }
 }
