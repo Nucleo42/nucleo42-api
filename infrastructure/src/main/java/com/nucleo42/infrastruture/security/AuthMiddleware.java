@@ -1,9 +1,11 @@
 package com.nucleo42.infrastruture.security;
 
+import com.nucleo42.application.protocol.TokenDecoder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -12,6 +14,9 @@ import java.util.Arrays;
 
 @Component
 public class AuthMiddleware extends OncePerRequestFilter {
+    @Autowired
+    private TokenDecoder tokenDecoder;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var isPublicRoute = Arrays.stream(PublicRoutes.values())
@@ -26,6 +31,9 @@ public class AuthMiddleware extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
+
+        var token = header.substring(7);
+        this.tokenDecoder.decode(token);
 
         filterChain.doFilter(request, response);
     }
