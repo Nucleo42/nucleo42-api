@@ -82,8 +82,8 @@ class JwtAdapterTest {
         @Test
         @DisplayName("Should sign token with correct expiration")
         void test04() {
-            sut.generate(payloadTest);
             var expiresAt = Instant.now().plus(Duration.ofHours(72));
+            sut.generate(payloadTest);
             verify(mockedBuild).withExpiresAt(expiresAt);
         }
 
