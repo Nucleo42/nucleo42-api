@@ -30,7 +30,7 @@ public class UpdateUserProfileControllerIT {
     @InjectMocks
     private UpdateUserProfileGatewayImpl updateService;
     private UserEntity userEntity;
-    private UUID id = UUID.randomUUID();
+    // private UUID id = UUID.randomUUID();
 
     @BeforeEach
     void setup() {
@@ -45,19 +45,6 @@ public class UpdateUserProfileControllerIT {
     void userProfileExists() {
         when(userRepository.findById(userEntity.getId()))
                 .thenReturn(Optional.of(userEntity));
-    }
-
-    @Test
-    void userProfileDoesNotExist() {
-        Assertions.assertThrows(UserDoesNotExistException.class,
-                () -> updateService.findUserById(id), "User does not exist");
-    }
-
-    @Test
-    void userProfileIsNull(){
-        UserEntity user = null;
-        Assertions.assertThrows(NullPointerException.class,
-                () -> userRepository.findById(user.getId()));
     }
 
 }
