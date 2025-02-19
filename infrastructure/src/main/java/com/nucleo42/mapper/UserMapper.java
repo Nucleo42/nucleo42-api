@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.nucleo42.dto.request.SkillRequest;
 import com.nucleo42.dto.request.UpdateUserRequest;
 import com.nucleo42.dto.response.UserResponse;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.SkillEntity;
+import com.nucleo42.dto.request.SkillEnum;
 import com.nucleo42.entity.User;
 import com.nucleo42.entity.UserEntity;
 
@@ -19,7 +21,6 @@ public class UserMapper {
         List<Skill> skills = new ArrayList<>();
         skills = toSkill(userEntity.getSkills());
         return new User(
-                userEntity.getId(),
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getEmail(),
@@ -35,6 +36,7 @@ public class UserMapper {
         user.setEmail(request.email());
         user.setPassword(request.password());
         user.setBiography(request.biography());
+        user.setSkills(skillFromId(request.skills()));
         return user;
     }
 
@@ -73,6 +75,15 @@ public class UserMapper {
         List<Skill> skills = new ArrayList<>();
         for (SkillEntity s : skillEntities) {
             skills.add(new Skill(s.getName()));
+        }
+        return skills;
+    }
+    private static List<Skill> skillFromId(List<SkillRequest> skillsIds){
+        List<Skill> skills = new ArrayList<>();
+        for(SkillRequest skill: skillsIds){
+            Skill s = new Skill();
+            s.setName(SkillEnum.fromId(skill.id()));
+            skills.add(s);
         }
         return skills;
     }
