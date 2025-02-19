@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -89,5 +90,17 @@ class AuthMiddlewareTest {
         sut.doFilterInternal(request, response, filterChain);
 
         assertEquals("subject", request.getAttribute("user_id"));
+    }
+
+    @Test
+    @DisplayName("Should set context authorization")
+    void test07() throws Exception {
+        request.setRequestURI("/private-route");
+        request.addHeader("Authorization", "Bearer token");
+        when(tokenDecoder.decode("token")).thenReturn("subject");
+
+        sut.doFilterInternal(request, response, filterChain);
+
+        assertEquals("subject", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 }
