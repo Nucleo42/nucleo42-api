@@ -103,5 +103,14 @@ class JwtAdapterTest {
             sut.decode("tokenTest");
             verify(mockedVerifier).verify("tokenTest");
         }
+
+        @Test
+        @DisplayName("Should return null when token is valid")
+        void test02() {
+            when(mockedVerifier.verify("tokenTest")).thenThrow(new RuntimeException());
+
+            var result = sut.decode("tokenTest");
+            assert result == null;
+        }
     }
 }
