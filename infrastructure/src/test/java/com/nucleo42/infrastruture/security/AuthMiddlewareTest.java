@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
@@ -64,5 +65,17 @@ class AuthMiddlewareTest {
         sut.doFilterInternal(request, response, filterChain);
 
         verify(tokenDecoder).decode("token");
+    }
+
+    @Test
+    @DisplayName("Should return 401 if token is invalid")
+    void test05() throws Exception {
+        request.setRequestURI("/private-route");
+        request.addHeader("Authorization", "Bearer token");
+        when(tokenDecoder.decode("token")).thenReturn(null);
+
+        sut.doFilterInternal(request, response, filterChain);
+
+        assertEquals(401, response.getStatus());
     }
 }
