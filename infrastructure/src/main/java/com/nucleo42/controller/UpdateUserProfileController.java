@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nucleo42.UpdateUserProfileCase;
 import com.nucleo42.dto.request.UpdateUserRequest;
 import com.nucleo42.entity.User;
+import com.nucleo42.exception.SkillDoesNotExistException;
 import com.nucleo42.exception.UserDoesNotExistException;
 import com.nucleo42.mapper.UserMapper;
 
@@ -31,7 +32,7 @@ public class UpdateUserProfileController {
         try {
             User user = UserMapper.toUser(updateUser);
             updateUserCase.update(user, id);
-        } catch (UserDoesNotExistException e) {
+        } catch (UserDoesNotExistException | SkillDoesNotExistException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("User updated successfully");
