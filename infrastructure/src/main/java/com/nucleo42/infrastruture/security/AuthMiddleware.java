@@ -22,7 +22,7 @@ public class AuthMiddleware extends OncePerRequestFilter {
         }
 
         var header = request.getHeader("Authorization");
-        if (header == null) {
+        if (header == null || !header.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
