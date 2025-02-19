@@ -27,10 +27,14 @@ public class JwtAdapter implements TokenGenerator, TokenDecoder {
 
     @Override
     public String decode(String token) {
-        JWT.require(algorithm)
-                .build()
-                .verify(token);
+        try {
+            JWT.require(algorithm)
+                    .build()
+                    .verify(token);
 
-        return "";
+            return "";
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
