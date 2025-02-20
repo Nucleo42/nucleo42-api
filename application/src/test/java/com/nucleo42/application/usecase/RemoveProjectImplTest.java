@@ -13,8 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -49,6 +49,13 @@ class RemoveProjectImplTest {
     void test01() {
         removeProject.remove(project.getId());
         verify(removeProjectGateway).remove(project.getId());
+    }
+
+    @Test
+    @DisplayName("Should return success message when RemoveProjectGateway returns true")
+    void test2() {
+        when(removeProjectGateway.remove(project.getId())).thenReturn(true);
+        assertEquals("Project successfully removed", removeProject.remove(project.getId()));
     }
 
 }
