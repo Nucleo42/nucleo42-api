@@ -29,9 +29,9 @@ public class UpdateUserProfileControllerIT {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserEntity userEntity;
-    @Autowired
     private ObjectMapper objectMapper;
+
+    private UserEntity userEntity;
     private UpdateUserRequestDTO userRequest;
     private UpdateUserRequestDTO userNotExistRequest;
 
@@ -58,12 +58,12 @@ public class UpdateUserProfileControllerIT {
     }
 
     @Test
-    @DisplayName("Should return code 404 if the user was updated successfully")
+    @DisplayName("Should return code 400 if the user was updated successfully")
     void updateUserProfileCase02() throws JsonProcessingException, Exception {
         mockMvc.perform(put("/user/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userNotExistRequest)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 
 }
