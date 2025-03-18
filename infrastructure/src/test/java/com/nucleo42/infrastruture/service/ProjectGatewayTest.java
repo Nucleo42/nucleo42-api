@@ -62,4 +62,11 @@ class ProjectGatewayTest {
             verify(projectRepository).findAll();
         }
     }
+
+    @Test
+    @DisplayName("Should call ProjectRepository.remove correctly")
+    void test04() {
+        projectGateway.remove(project.getId());
+        verify(projectRepository).deleteById(project.getId());
+    }
 }
