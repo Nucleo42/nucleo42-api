@@ -69,4 +69,11 @@ class ProjectGatewayTest {
         projectGateway.remove(project.getId());
         verify(projectRepository).deleteById(project.getId());
     }
+
+    @Test
+    @DisplayName("Should returns true on success")
+    void test05() {
+        Boolean result = projectGateway.remove(project.getId());
+        assert result.equals(true);
+    }
 }
