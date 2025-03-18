@@ -5,6 +5,7 @@ import com.nucleo42.infrastruture.annotation.ApiRequestBody;
 import com.nucleo42.infrastruture.dto.CreateProjectRequestDTO;
 import com.nucleo42.usecase.AddProject;
 import com.nucleo42.usecase.FindAllProjects;
+import com.nucleo42.usecase.RemoveProject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/project")
@@ -28,6 +30,9 @@ public class ProjectController {
 
     @Autowired
     private FindAllProjects findAllProjects;
+
+    @Autowired
+    private RemoveProject removeProject;
 
     @Operation(
             description = "Create a new project",
@@ -82,6 +87,13 @@ public class ProjectController {
     public ResponseEntity<List<Project>> findAll()
     {
         return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> remove(@PathVariable("id") UUID projectId)
+    {
+        var result = removeProject.remove(projectId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }
