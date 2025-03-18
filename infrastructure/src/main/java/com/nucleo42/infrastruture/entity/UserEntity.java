@@ -1,4 +1,4 @@
-package com.nucleo42.entity;
+package com.nucleo42.infrastruture.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,10 +26,10 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "username", nullable = false, length = 100, unique = true)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "acept_terms", nullable = false)
