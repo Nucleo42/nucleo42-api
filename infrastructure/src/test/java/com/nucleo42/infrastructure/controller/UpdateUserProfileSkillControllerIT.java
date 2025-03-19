@@ -18,18 +18,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nucleo42.dto.request.SkillRequestDTO;
-import com.nucleo42.dto.request.UpdateSkillRequestDTO;
-import com.nucleo42.entity.SkillEntity;
-import com.nucleo42.entity.UserEntity;
-import com.nucleo42.repository.UserEntityRepository;
+import com.nucleo42.infrastructure.dto.SkillRequestDTO;
+import com.nucleo42.infrastructure.dto.UpdateSkillRequestDTO;
+import com.nucleo42.infrastructure.entity.SkillEntity;
+import com.nucleo42.infrastructure.entity.UserEntity;
+import com.nucleo42.infrastructure.repository.UserRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class UpdateUserProfileSkillControllerIT {
     @Autowired
-    private UserEntityRepository repository;
+    private UserRepository repository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired

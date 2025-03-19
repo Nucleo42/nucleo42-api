@@ -16,16 +16,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nucleo42.dto.request.UpdateUserRequestDTO;
-import com.nucleo42.entity.UserEntity;
-import com.nucleo42.repository.UserEntityRepository;
+import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
+import com.nucleo42.infrastructure.entity.UserEntity;
+import com.nucleo42.infrastructure.repository.UserRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class UpdateUserProfileControllerIT {
     @Autowired
-    private UserEntityRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired

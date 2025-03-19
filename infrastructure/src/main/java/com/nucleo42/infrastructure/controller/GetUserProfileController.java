@@ -1,0 +1,35 @@
+package com.nucleo42.infrastructure.controller;
+
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nucleo42.infrastructure.dto.UserResponse;
+import com.nucleo42.exception.UserDoesNotExistException;
+import com.nucleo42.exception.UserIdIsNullException;
+import com.nucleo42.infrastructure.mapper.UserMapper;
+import com.nucleo42.usecase.GetUserProfileByIdCase;
+
+@RestController
+@RequestMapping("user")
+public class GetUserProfileController {
+    @Autowired
+    private GetUserProfileByIdCase getUserProfileByIdCase;
+
+    @GetMapping("{id}")
+    public ResponseEntity<?> getUserProfileById(@PathVariable UUID id) {
+        UserResponse user;
+        try {
+            user = UserMapper.toResponse(getUserProfileByIdCase.getUserProfileById(id));
+        } catch (UserDoesNotExistException | UserIdIsNullException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+}

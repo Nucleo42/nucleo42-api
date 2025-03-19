@@ -13,15 +13,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.nucleo42.entity.UserEntity;
-import com.nucleo42.repository.UserEntityRepository;
+import com.nucleo42.infrastructure.entity.UserEntity;
+import com.nucleo42.infrastructure.repository.UserRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class GetUserProfileControllerIT {
     @Autowired
-    private UserEntityRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private MockMvc mockMvc;
     UserEntity userEntity;
