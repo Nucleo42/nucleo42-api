@@ -1,37 +1,55 @@
 package com.nucleo42.infrastructure.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.UUID;
+import com.nucleo42.entity.Skill;
+import com.nucleo42.entity.User;
+import com.nucleo42.exception.UserDoesNotExistException;
+import com.nucleo42.exception.UserIdIsInvalidException;
+import com.nucleo42.exception.UserIdIsNullException;
+import com.nucleo42.infrastructure.entity.UserEntity;
+import com.nucleo42.infrastructure.mapper.UserMapper;
+import com.nucleo42.infrastructure.repository.UserRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.nucleo42.entity.Skill;
-import com.nucleo42.entity.User;
-import com.nucleo42.entity.UserEntity;
-import com.nucleo42.exception.UserDoesNotExistException;
-import com.nucleo42.exception.UserIdIsInvalidException;
-import com.nucleo42.exception.UserIdIsNullException;
-import com.nucleo42.mapper.UserMapper;
-import com.nucleo42.repository.UserEntityRepository;
-import com.nucleo42.service.UserGateway;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class UserGatewayTest {
+@ExtendWith(MockitoExtension.class)
+class UserGatewayTest {
+    @InjectMocks
+    private UserGateway sut;
+
+    @Mock
+    private UserRepository repositoryMock;
+
+    @Mock
+    private UserEntity userEntityMock;
+
+    @Mock
+    private User user;
+
     @Autowired
-    private UserEntityRepository repository;
+    private UserRepository repository;
     @Autowired
     private UserGateway userService;
 
@@ -43,13 +61,99 @@ public class UserGatewayTest {
 
     @BeforeEach
     void setup() {
+        user.setEmail("test@mail.com");
+
         repository.deleteAll();
 
         userEntity = new UserEntity(null, "Núcleo", "42", "nucleo42@gmail.com", "Nova senha", true, false,
                 "Biografia", null, null, null, null);
 
-        userEntity = repository.save(userEntity);
-        userDomain = UserMapper.toUser(userEntity);
+        userEntity = repository.save(userEntityMock);
+        userDomain = UserMapper.toDomain(userEntityMock);
+    }
+
+    @Nested
+    @DisplayName("add method")
+    class Add {
+        @Test
+        @DisplayName("Should call UserRepository.save with correct value")
+        void test01() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntityMock);
+
+                sut.add(user);
+
+                verify(repositoryMock).save(userEntityMock);
+            }
+        }
+
+        @Test
+        @DisplayName("Should call UserRepository.existsByEmail with correct value")
+        void test02() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntityMock);
+
+                sut.add(user);
+
+                verify(repository).existsByEmail(userEntityMock.getEmail());
+            }
+        }
+
+        @Test
+        @DisplayName("Should return false if UserRepository.existsByEmail returns true")
+        void test03() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntityMock);
+                when(repository.existsByEmail(userEntityMock.getEmail())).thenReturn(true);
+
+                var result = sut.add(user);
+
+                assert result.equals(false);
+            }
+        }
+
+        @Test
+        @DisplayName("Should return true on success")
+        void test04() {
+            try (var mockedUserMapper = mockStatic(UserMapper.class)) {
+                mockedUserMapper.when(() -> UserMapper.toEntity(user)).thenReturn(userEntityMock);
+                when(repository.existsByEmail(userEntityMock.getEmail())).thenReturn(false);
+
+                var result = sut.add(user);
+
+                assert result.equals(true);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("load method")
+    class Load {
+        @Test
+        @DisplayName("Should call UserRepository.findByEmail with correct value")
+        void test01() {
+            sut.load(user.getEmail());
+
+            verify(repository).findByEmail(user.getEmail());
+        }
+
+        @Test
+        @DisplayName("Should return Optional.empty if UserRepository.findByEmail returns null")
+        void test02() {
+            var result = sut.load(user.getEmail());
+
+            assert result.isEmpty();
+        }
+
+        @Test
+        @DisplayName("Should return Optional.of(User) if UserRepository.findByEmail returns UserEntity")
+        void test03() {
+            when(repository.findByEmail(user.getEmail())).thenReturn(Optional.of(userEntityMock));
+
+            var result = sut.load(user.getEmail());
+
+            assert result.isPresent();
+        }
     }
 
     @Nested
