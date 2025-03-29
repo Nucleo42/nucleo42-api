@@ -4,6 +4,6 @@ import java.util.UUID;
 
 import com.nucleo42.entity.User;
 
-public interface GetUserProfileByIdGateway {
+public interface IGetUserProfileByIdGateway {
     User getUserProfileById(UUID id);
 }
