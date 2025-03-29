@@ -3,7 +3,7 @@ package com.nucleo42.application.gateway;
 
 import com.nucleo42.entity.User;
 
-public interface UpdateUserProfileGateway {
+public interface IUpdateUserProfileGateway {
     boolean update(User userUpdate);
 
 }
