@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.nucleo42.entity.Skill;
 
-public interface UpdateUserProfileSkillGateway {
+public interface IUpdateUserProfileSkillGateway {
     boolean updateSkills(List<Skill> skills, String userId);
 }

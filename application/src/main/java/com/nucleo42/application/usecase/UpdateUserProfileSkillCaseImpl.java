@@ -2,14 +2,14 @@ package com.nucleo42.application.usecase;
 
 import java.util.List;
 
-import com.nucleo42.application.gateway.UpdateUserProfileSkillGateway;
+import com.nucleo42.application.gateway.IUpdateUserProfileSkillGateway;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.usecase.UpdateUserProfileSkillsCase;
 
 public class UpdateUserProfileSkillCaseImpl implements UpdateUserProfileSkillsCase {
-    private final UpdateUserProfileSkillGateway skillGateway;
+    private final IUpdateUserProfileSkillGateway skillGateway;
 
-    public UpdateUserProfileSkillCaseImpl(UpdateUserProfileSkillGateway skillGateway) {
+    public UpdateUserProfileSkillCaseImpl(IUpdateUserProfileSkillGateway skillGateway) {
         this.skillGateway = skillGateway;
     }
 
