@@ -50,13 +50,16 @@ class UserGatewayTest {
 
     @Autowired
     private UserRepository repository;
+
     @Autowired
     private UserGateway userService;
 
     private User userDomain;
+
     private UserEntity userEntity;
 
     private UUID id = UUID.fromString("7be9b195-6c72-4ea3-a51b-01b8fada2e4c");
+
     private final List<Skill> skills = List.of(new Skill("Trabalho em equipe"), new Skill("Comunicação"));
 
     @BeforeEach
@@ -160,7 +163,7 @@ class UserGatewayTest {
     class getUserProfileById {
         @Test
         @DisplayName("Should return user if it exists")
-        void getUserProfileByIdCase01() {
+        void test01() {
             User user = userService.getUserProfileById(userEntity.getId());
             user.setSkills(null);
             assertEquals(user, userDomain);
@@ -168,7 +171,7 @@ class UserGatewayTest {
 
         @Test
         @DisplayName("Should return UserDoesNotExistException if the user id has no match in the database")
-        void getUserProfileByIdCase02() {
+        void test02() {
             Exception thrown = Assertions.assertThrows(UserDoesNotExistException.class, () -> {
                 userService.getUserProfileById(id);
             });
@@ -179,7 +182,7 @@ class UserGatewayTest {
 
         @Test
         @DisplayName("Should return UserIdIsNullException if user id is null")
-        void getUserProfileByIdCase03() {
+        void test03() {
             Assertions.assertThrows(UserIdIsNullException.class, () -> {
                 userService.getUserProfileById(null);
             });
@@ -191,13 +194,13 @@ class UserGatewayTest {
     class updateMethod {
         @Test
         @DisplayName("Should return true if the user was updated successfully")
-        void updateMethodCase01() {
+        void test01() {
             assertTrue(userService.update(userDomain));
         }
 
         @Test
         @DisplayName("Should return UserDoesNotExistException if the user id has no match in the database")
-        void updateMethodCase02() {
+        void test02() {
             Exception thrown = Assertions.assertThrows(UserDoesNotExistException.class, () -> {
                 userDomain.setId(id);
                 userService.update(userDomain);
@@ -209,13 +212,13 @@ class UserGatewayTest {
 
         @Test
         @DisplayName("Should return false if user is null")
-        void updateMethodCase03() {
+        void test03() {
             assertFalse(userService.update(null));
         }
 
         @Test
         @DisplayName("Should return UserIdIsNullException if user id is null")
-        void updateMethod04() {
+        void test04() {
             userDomain.setId(null);
 
             Assertions.assertThrows(UserIdIsNullException.class, () -> {
@@ -230,19 +233,19 @@ class UserGatewayTest {
     class updateSkillsMethod {
         @Test
         @DisplayName("Should return true if the skills was updated successfully")
-        void updateSkillsMethodCase01() {
+        void test01() {
             assertTrue(userService.updateSkills(skills, userEntity.getId().toString()));
         }
 
         @Test
         @DisplayName("Should return false if skills is null")
-        void updateSkillsMethodCase02() {
+        void test02() {
             assertFalse(userService.updateSkills(null, id.toString()));
         }
 
         @Test
         @DisplayName("Should return UserIdIsInvalidException if user id is null")
-        void updateSkillsMethodCase03() {
+        void test03() {
             Assertions.assertThrows(UserIdIsInvalidException.class, () -> {
                 userService.updateSkills(skills, null);
             });
@@ -250,7 +253,7 @@ class UserGatewayTest {
 
         @Test
         @DisplayName("Should return UserDoesNotExistException if the user id has no match in the database")
-        void updateSkillsMethodCase04() {
+        void test04() {
             Exception thrown = Assertions.assertThrows(UserDoesNotExistException.class, () -> {
                 userService.updateSkills(skills, id.toString());
             });
