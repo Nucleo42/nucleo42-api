@@ -1,10 +1,10 @@
 package com.nucleo42.infrastructure.service;
 
 import com.nucleo42.application.gateway.AddAccountGateway;
-import com.nucleo42.application.gateway.GetUserProfileByIdGateway;
+import com.nucleo42.application.gateway.IGetUserProfileByIdGateway;
 import com.nucleo42.application.gateway.LoadUserByEmailGateway;
-import com.nucleo42.application.gateway.UpdateUserProfileGateway;
-import com.nucleo42.application.gateway.UpdateUserProfileSkillGateway;
+import com.nucleo42.application.gateway.IUpdateUserProfileGateway;
+import com.nucleo42.application.gateway.IUpdateUserProfileSkillGateway;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.UserDoesNotExistException;
@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, GetUserProfileByIdGateway, UpdateUserProfileGateway, UpdateUserProfileSkillGateway {
+public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, IGetUserProfileByIdGateway, IUpdateUserProfileGateway, IUpdateUserProfileSkillGateway {
     @Autowired
     private UserRepository repository;
 
