@@ -3,9 +3,9 @@ package com.nucleo42.infrastructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.nucleo42.application.gateway.GetUserProfileByIdGateway;
-import com.nucleo42.application.gateway.UpdateUserProfileGateway;
-import com.nucleo42.application.gateway.UpdateUserProfileSkillGateway;
+import com.nucleo42.application.gateway.IGetUserProfileByIdGateway;
+import com.nucleo42.application.gateway.IUpdateUserProfileGateway;
+import com.nucleo42.application.gateway.IUpdateUserProfileSkillGateway;
 import com.nucleo42.application.usecase.GetUserProfileByIdCaseImpl;
 import com.nucleo42.application.usecase.UpdateUserProfileCaseImpl;
 import com.nucleo42.application.usecase.UpdateUserProfileSkillCaseImpl;
@@ -20,18 +20,18 @@ public class UserConfig {
 
     @Bean
     public GetUserProfileByIdCaseImpl findUserProfileByIdCaseImpl(
-            GetUserProfileByIdGateway findUserProfileByIdGateway) {
+            IGetUserProfileByIdGateway findUserProfileByIdGateway) {
         return new GetUserProfileByIdCaseImpl(findUserProfileByIdGateway);
 
     }
 
     @Bean
-    public UpdateUserProfileCaseImpl updateUserProfileCaseImpl(UpdateUserProfileGateway updateUserProfileGateway) {
+    public UpdateUserProfileCaseImpl updateUserProfileCaseImpl(IUpdateUserProfileGateway updateUserProfileGateway) {
         return new UpdateUserProfileCaseImpl(updateUserProfileGateway);
     }
 
     @Bean
-    public UpdateUserProfileSkillCaseImpl updateUserProfileSkillCaseImpl (UpdateUserProfileSkillGateway skillGateway) {
+    public UpdateUserProfileSkillCaseImpl updateUserProfileSkillCaseImpl (IUpdateUserProfileSkillGateway skillGateway) {
         return new UpdateUserProfileSkillCaseImpl(skillGateway);
     }
 }
