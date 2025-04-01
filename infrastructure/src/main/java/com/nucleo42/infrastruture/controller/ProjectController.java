@@ -89,11 +89,5 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll());
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> remove(@PathVariable("id") UUID projectId)
-    {
-        var result = removeProject.remove(projectId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
 
 }
