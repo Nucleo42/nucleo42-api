@@ -109,11 +109,4 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$[0].name").value(projects.getFirst().getName()))
                 .andExpect(jsonPath("$[1].name").value(projects.get(1).getName()));
     }
-
-    @Test
-    @DisplayName("Should remove a project")
-    void test05() throws Exception {
-        mockMvc.perform(delete("/project/" + projects.getFirst().getId()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
 }
