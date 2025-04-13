@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -75,5 +76,17 @@ class ProjectGatewayTest {
     void test05() {
         Boolean result = projectGateway.remove(project.getId());
         assert result.equals(true);
+    }
+
+    @Test
+    @DisplayName("Should call ProjectRepository.save correctly when update")
+    void test06() {
+        try (var mockedProjectMapper = mockStatic(ProjectMapper.class)) {
+            mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
+            mockedProjectMapper.when(() -> project.getId()).thenReturn(UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb"));
+            mockedProjectMapper.when(() -> projectRepository.findById(UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb"))).thenReturn(Optional.of(projectEntity));
+            projectGateway.update(project);
+            verify(projectRepository).save(projectEntity);
+        }
     }
 }
