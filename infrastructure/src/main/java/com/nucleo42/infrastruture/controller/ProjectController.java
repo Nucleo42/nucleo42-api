@@ -26,62 +26,12 @@ import java.util.UUID;
 public class ProjectController {
 
     @Autowired
-    private AddProject createProjectUseCase;
-
-    @Autowired
     private FindAllProjects findAllProjects;
 
     @Autowired
     private RemoveProject removeProject;
 
-    @Operation(
-            description = "Create a new project",
-            summary = "Create Project"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Project created",
-                    content = @Content(
-                            mediaType = "text/plain",
-                            examples = @ExampleObject(value = "Project created successfully")
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error",
-                    content = @Content(
-                            mediaType = "text/plain",
-                            examples = @ExampleObject(value = "Internal server error")
-                    )
-            )
-    })
-    @ApiRequestBody(
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(
-                            value = """
-                                    {
-                                        "name": "Project Name",
-                                        "description": "Its a project",
-                                        "vacancies": 1,
-                                        "goal": "Make a project"
-                                    }
-                                    """
-                    )
-            )
-    )
-    @PostMapping
-    public ResponseEntity<String> create(@RequestBody @Valid CreateProjectRequestDTO dto)
-    {
-        var project = new Project(dto.name(), dto.description(), dto.vacancies(), dto.goal(), new ArrayList<>(), new ArrayList<>());
-        var result = createProjectUseCase.create(project);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    }
+
 
     @GetMapping
     public ResponseEntity<List<Project>> findAll()
