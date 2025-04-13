@@ -5,12 +5,14 @@ import com.nucleo42.application.gateway.FindAllProjectsGateway;
 import com.nucleo42.application.gateway.RemoveProjectGateway;
 import com.nucleo42.application.gateway.UpdateProjectGateway;
 import com.nucleo42.entity.Project;
+import com.nucleo42.infrastruture.entity.ProjectEntity;
 import com.nucleo42.infrastruture.mapper.ProjectMapper;
 import com.nucleo42.infrastruture.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -43,11 +45,18 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
             return false;
         }
 
-        var projectData = projectRepository.findById(project.getId());
+        Optional<ProjectEntity> projectOptional = projectRepository.findById(project.getId());
 
-        if (projectData.isPresent())
+        if (projectOptional.isPresent())
         {
-            projectRepository.save(ProjectMapper.toEntity(project));
+            ProjectEntity projectData = projectOptional.get();
+
+            projectData.setName(project.getName());
+            projectData.setGoal(project.getGoal());
+            projectData.setDescription(project.getDescription());
+            projectData.setVacancies(project.getVacancies());
+
+            projectRepository.save(projectData);
             return true;
         }
         return false;
