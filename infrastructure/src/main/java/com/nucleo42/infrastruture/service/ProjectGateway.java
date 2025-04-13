@@ -3,6 +3,7 @@ package com.nucleo42.infrastruture.service;
 import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.application.gateway.FindAllProjectsGateway;
 import com.nucleo42.application.gateway.RemoveProjectGateway;
+import com.nucleo42.application.gateway.UpdateProjectGateway;
 import com.nucleo42.entity.Project;
 import com.nucleo42.infrastruture.mapper.ProjectMapper;
 import com.nucleo42.infrastruture.repository.ProjectRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway, RemoveProjectGateway {
+public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway, RemoveProjectGateway, UpdateProjectGateway {
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -33,6 +34,23 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
     public Boolean remove(UUID id) {
         projectRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public Boolean update(Project project) {
+        if (project.getId() == null)
+        {
+            return false;
+        }
+
+        var projectData = projectRepository.findById(project.getId());
+
+        if (projectData.isPresent())
+        {
+            projectRepository.save(ProjectMapper.toEntity(project));
+            return true;
+        }
+        return false;
     }
 }
 
