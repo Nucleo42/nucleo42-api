@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
+@Tag(name = "projects")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/project")
@@ -43,7 +45,37 @@ public class CreateProjectController {
             ),
             @ApiResponse(
                     responseCode = "422",
-                    description = "Unprocessable Entity"
+                    description = "Unprocessable Entity",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                "status": 422,
+                                                "message": "Campos inválidos",
+                                                "errors": [
+                                                    {
+                                                        "field": "goal",
+                                                        "error": "O objetivo do projeto precisa ser informado"
+                                                    },
+                                                    {
+                                                        "field": "name",
+                                                        "error": "O nome do projeto precisa ser informado"
+                                                    },
+                                                    {
+                                                        "field": "description",
+                                                        "error": "A descrição do projeto precisa ser informado"
+                                                    },
+                                                    {
+                                                        "field": "vacancies",
+                                                        "error": "As vagas do projeto precisam ser informadas"
+                                                    }
+                                                ]
+                                            }
+                                            """
+                            )
+
+                    )
             ),
             @ApiResponse(
                     responseCode = "500",
