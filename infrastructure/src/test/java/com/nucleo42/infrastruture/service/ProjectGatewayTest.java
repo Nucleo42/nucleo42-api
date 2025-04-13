@@ -89,4 +89,16 @@ class ProjectGatewayTest {
             verify(projectRepository).save(projectEntity);
         }
     }
+
+    @Test
+    @DisplayName("Should returns true on success when update")
+    void test07() {
+        try (var mockedProjectMapper = mockStatic(ProjectMapper.class)) {
+            mockedProjectMapper.when(() -> ProjectMapper.toEntity(project)).thenReturn(projectEntity);
+            mockedProjectMapper.when(() -> project.getId()).thenReturn(UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb"));
+            mockedProjectMapper.when(() -> projectRepository.findById(UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb"))).thenReturn(Optional.of(projectEntity));
+            Boolean result = projectGateway.update(project);
+            assert result.equals(true);
+        }
+    }
 }
