@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
-@Tag(name = "projects")
+@Tag(name = "project")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/project")
