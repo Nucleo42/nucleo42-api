@@ -3,13 +3,16 @@ package com.nucleo42.infrastruture.config;
 import com.nucleo42.application.gateway.AddProjectGateway;
 import com.nucleo42.application.gateway.FindAllProjectsGateway;
 import com.nucleo42.application.gateway.RemoveProjectGateway;
+import com.nucleo42.application.gateway.UpdateProjectGateway;
 import com.nucleo42.application.usecase.AddProjectImpl;
 import com.nucleo42.application.usecase.FindAllProjectsImpl;
 import com.nucleo42.application.usecase.RemoveProjectImpl;
+import com.nucleo42.application.usecase.UpdateProjectImpl;
 import com.nucleo42.infrastruture.service.ProjectGateway;
 import com.nucleo42.usecase.AddProject;
 import com.nucleo42.usecase.FindAllProjects;
 import com.nucleo42.usecase.RemoveProject;
+import com.nucleo42.usecase.UpdateProject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,5 +39,11 @@ public class ProjectConfig {
     public RemoveProject removeProject(RemoveProjectGateway removeProjectGateway)
     {
         return new RemoveProjectImpl(removeProjectGateway);
+    }
+
+    @Bean
+    public UpdateProject updateProject(UpdateProjectGateway updateProjectGateway)
+    {
+        return new UpdateProjectImpl(updateProjectGateway);
     }
 }
