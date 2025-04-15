@@ -3,8 +3,6 @@ package com.nucleo42.infrastructure.service;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.UserDoesNotExistException;
-import com.nucleo42.exception.UserIdIsInvalidException;
-import com.nucleo42.exception.UserIdIsNullException;
 import com.nucleo42.infrastructure.entity.UserEntity;
 import com.nucleo42.infrastructure.mapper.UserMapper;
 import com.nucleo42.infrastructure.repository.UserRepository;
@@ -180,14 +178,6 @@ class UserGatewayTest {
                     thrown.getMessage());
         }
 
-        @Test
-        @DisplayName("Should return UserIdIsNullException if user id is null")
-        void test03() {
-            Assertions.assertThrows(UserIdIsNullException.class, () -> {
-                userService.getUserProfileById(null);
-            });
-        }
-
     }
 
     @Nested
@@ -216,17 +206,6 @@ class UserGatewayTest {
             assertFalse(userService.update(null));
         }
 
-        @Test
-        @DisplayName("Should return UserIdIsNullException if user id is null")
-        void test04() {
-            userDomain.setId(null);
-
-            Assertions.assertThrows(UserIdIsNullException.class, () -> {
-                userService.update(userDomain);
-            });
-
-        }
-
     }
 
     @Nested
@@ -234,28 +213,20 @@ class UserGatewayTest {
         @Test
         @DisplayName("Should return true if the skills was updated successfully")
         void test01() {
-            assertTrue(userService.updateSkills(skills, userEntity.getId().toString()));
+            assertTrue(userService.updateSkills(skills, userEntity.getId()));
         }
 
         @Test
         @DisplayName("Should return false if skills is null")
         void test02() {
-            assertFalse(userService.updateSkills(null, id.toString()));
-        }
-
-        @Test
-        @DisplayName("Should return UserIdIsInvalidException if user id is null")
-        void test03() {
-            Assertions.assertThrows(UserIdIsInvalidException.class, () -> {
-                userService.updateSkills(skills, null);
-            });
+            assertFalse(userService.updateSkills(null, id));
         }
 
         @Test
         @DisplayName("Should return UserDoesNotExistException if the user id has no match in the database")
         void test04() {
             Exception thrown = Assertions.assertThrows(UserDoesNotExistException.class, () -> {
-                userService.updateSkills(skills, id.toString());
+                userService.updateSkills(skills, id);
             });
 
             Assertions.assertEquals("User id '7be9b195-6c72-4ea3-a51b-01b8fada2e4c' does not exist",
