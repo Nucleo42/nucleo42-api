@@ -1,14 +1,10 @@
 package com.nucleo42.infrastructure.mapper;
 
-import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
-import com.nucleo42.infrastructure.dto.UserResponse;
-
 import java.util.List;
-import java.util.UUID;
-
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.User;
-import com.nucleo42.exception.UserIdIsInvalidException;
+import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
+import com.nucleo42.infrastructure.dto.UserResponse;
 import com.nucleo42.infrastructure.entity.SkillEntity;
 import com.nucleo42.infrastructure.entity.UserEntity;
 
@@ -32,6 +28,7 @@ public class UserMapper {
 
     public static User toDomain(UserEntity userEntity) {
         List<Skill> skills = SkillMapper.toSkill(userEntity.getSkills());
+
         return new User(
                 userEntity.getId(),
                 userEntity.getFirstName(),
@@ -44,16 +41,8 @@ public class UserMapper {
     }
 
     public static User toDomain(UpdateUserRequestDTO request) {
-        UUID id = null;
-
-        try {
-            id = UUID.fromString(request.id());
-        } catch (IllegalArgumentException e) {
-            throw new UserIdIsInvalidException(request.id());
-        }
-
         User user = new User();
-        user.setId(id);
+        user.setId(request.id());
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setEmail(request.email());
