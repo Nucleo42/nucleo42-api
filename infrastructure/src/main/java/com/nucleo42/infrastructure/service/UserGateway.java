@@ -8,8 +8,6 @@ import com.nucleo42.application.gateway.IUpdateUserProfileSkillGateway;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.User;
 import com.nucleo42.exception.UserDoesNotExistException;
-import com.nucleo42.exception.UserIdIsInvalidException;
-import com.nucleo42.exception.UserIdIsNullException;
 import com.nucleo42.infrastructure.entity.UserEntity;
 import com.nucleo42.infrastructure.mapper.SkillMapper;
 import com.nucleo42.infrastructure.mapper.UserMapper;
@@ -22,7 +20,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, IGetUserProfileByIdGateway, IUpdateUserProfileGateway, IUpdateUserProfileSkillGateway {
+public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, IGetUserProfileByIdGateway,
+        IUpdateUserProfileGateway, IUpdateUserProfileSkillGateway {
     @Autowired
     private UserRepository repository;
 
@@ -61,17 +60,9 @@ public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, I
     }
 
     @Override
-    public boolean updateSkills(List<Skill> skills, String userId) {
-        UUID id = null;
-
-        try {
-            id = UUID.fromString(userId);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            throw new UserIdIsInvalidException(userId);
-        }
-
+    public boolean updateSkills(List<Skill> skills, UUID userId) {
         if (skills != null) {
-            UserEntity user = findById(id);
+            UserEntity user = findById(userId);
             user.setSkills(SkillMapper.toSkillEntity(skills));
             repository.save(user);
             return true;
@@ -80,11 +71,8 @@ public class UserGateway implements AddAccountGateway, LoadUserByEmailGateway, I
     }
 
     public UserEntity findById(UUID id) {
-        if (id != null) {
-            return repository.findById(id).orElseThrow(
-                    () -> new UserDoesNotExistException());
-        }
-        throw new UserIdIsNullException();
+        return repository.findById(id).orElseThrow(
+                () -> new UserDoesNotExistException());
     }
 
 }
