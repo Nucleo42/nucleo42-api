@@ -4,7 +4,7 @@ import java.util.List;
 import com.nucleo42.entity.Skill;
 import com.nucleo42.entity.User;
 import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
-import com.nucleo42.infrastructure.dto.UserResponse;
+import com.nucleo42.infrastructure.dto.UserResponseDTO;
 import com.nucleo42.infrastructure.entity.SkillEntity;
 import com.nucleo42.infrastructure.entity.UserEntity;
 
@@ -51,8 +51,8 @@ public class UserMapper {
         return user;
     }
 
-    public static UserResponse toResponse(User user) {
-        return new UserResponse(user.getFirstName(), user.getLastName(), user.getEmail(), user.getBiography(),
+    public static UserResponseDTO toResponse(User user) {
+        return new UserResponseDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getBiography(),
                 user.getSkills());
     }
 

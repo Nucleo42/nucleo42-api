@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nucleo42.infrastructure.dto.UserResponse;
+import com.nucleo42.infrastructure.dto.UserResponseDTO;
 import com.nucleo42.infrastructure.mapper.UserMapper;
 import com.nucleo42.usecase.GetUserProfileByIdCase;
 
@@ -22,7 +22,7 @@ public class GetUserProfileController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getUserProfileById(@PathVariable("id") UUID id) {
-        UserResponse user = UserMapper.toResponse(getUserProfileByIdCase.getUserProfileById(id));
+        UserResponseDTO user = UserMapper.toResponse(getUserProfileByIdCase.getUserProfileById(id));
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
