@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
 import com.nucleo42.entity.User;
-import com.nucleo42.exception.SkillDoesNotExistException;
-import com.nucleo42.exception.UserDoesNotExistException;
 import com.nucleo42.infrastructure.mapper.UserMapper;
 import com.nucleo42.usecase.UpdateUserProfileCase;
 
@@ -25,12 +23,8 @@ public class UpdateUserProfileController {
 
     @PutMapping
     public ResponseEntity<?> updateUserProfileById(@RequestBody @Valid UpdateUserRequestDTO updateUser) {
-        try {
-            User user = UserMapper.toDomain(updateUser);
-            updateUserCase.update(user);
-        } catch (UserDoesNotExistException | SkillDoesNotExistException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        User user = UserMapper.toDomain(updateUser);
+        updateUserCase.update(user);
         return ResponseEntity.status(HttpStatus.OK).body("User updated successfully");
     }
 

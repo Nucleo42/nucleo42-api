@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleo42.infrastructure.dto.UpdateSkillRequestDTO;
 import com.nucleo42.entity.Skill;
-import com.nucleo42.exception.SkillDoesNotExistException;
-import com.nucleo42.exception.UserDoesNotExistException;
-import com.nucleo42.exception.UserIdIsInvalidException;
-import com.nucleo42.exception.UserIdIsNullException;
 import com.nucleo42.infrastructure.mapper.SkillMapper;
 import com.nucleo42.usecase.UpdateUserProfileSkillsCase;
 
@@ -28,12 +24,8 @@ public class UpdateUserProfileSkillsController {
 
     @PutMapping
     public ResponseEntity<?> updateSkills(@RequestBody @Valid UpdateSkillRequestDTO skillRequest) {
-        try {
-            List<Skill> skills = SkillMapper.skillFromId(skillRequest.skills());
-            updateSkillsCase.updateSkills(skills, skillRequest.userId());
-        } catch (SkillDoesNotExistException | UserDoesNotExistException | UserIdIsNullException | UserIdIsInvalidException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        List<Skill> skills = SkillMapper.skillFromId(skillRequest.skills());
+        updateSkillsCase.updateSkills(skills, skillRequest.id());
         return ResponseEntity.ok().body("Skills updated successufully");
     }
 

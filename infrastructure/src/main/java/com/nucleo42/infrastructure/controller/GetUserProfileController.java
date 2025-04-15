@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nucleo42.infrastructure.dto.UserResponse;
-import com.nucleo42.exception.UserDoesNotExistException;
-import com.nucleo42.exception.UserIdIsNullException;
 import com.nucleo42.infrastructure.mapper.UserMapper;
 import com.nucleo42.usecase.GetUserProfileByIdCase;
 
@@ -23,13 +21,8 @@ public class GetUserProfileController {
     private GetUserProfileByIdCase getUserProfileByIdCase;
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getUserProfileById(@PathVariable UUID id) {
-        UserResponse user;
-        try {
-            user = UserMapper.toResponse(getUserProfileByIdCase.getUserProfileById(id));
-        } catch (UserDoesNotExistException | UserIdIsNullException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<?> getUserProfileById(@PathVariable("id") UUID id) {
+        UserResponse user = UserMapper.toResponse(getUserProfileByIdCase.getUserProfileById(id));
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
