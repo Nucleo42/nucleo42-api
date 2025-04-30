@@ -14,7 +14,8 @@ public class User {
     private Boolean acceptTerms;
     private List<Skill> skills;
 
-    public User(String firstName, String lastName, String email, String password, String biography, Boolean acceptTerms, List<Skill> skills) {
+    public User(UUID id, String firstName, String lastName, String email, String password, String biography, Boolean acceptTerms, List<Skill> skills) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
