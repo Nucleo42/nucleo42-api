@@ -3,6 +3,8 @@ package com.nucleo42.infrastruture.mapper;
 import com.nucleo42.entity.Project;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
 
+import java.util.List;
+
 public class ProjectMapper {
 
     public static ProjectEntity toEntity(Project project)
@@ -13,7 +15,8 @@ public class ProjectMapper {
                 project.getDescription(),
                 project.getVacancies(),
                 project.getGoal(),
-                null,
+                List.of(),
+                List.of(),
                 null,
                 null
         );
@@ -27,8 +30,8 @@ public class ProjectMapper {
                 projectEntity.getDescription(),
                 projectEntity.getVacancies(),
                 projectEntity.getGoal(),
-                null,
-                null,
+                List.of(),
+                List.of(),
                 projectEntity.getCreatedAt(),
                 projectEntity.getUpdatedAt()
         );

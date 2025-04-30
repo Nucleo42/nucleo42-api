@@ -58,7 +58,7 @@ class ProjectGatewayTest {
         try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
             mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
 
-            projectGateway.findAll();
+            projectGateway.findAll(null, null, null, null, null,  null);
 
             verify(projectRepository).findAll();
         }

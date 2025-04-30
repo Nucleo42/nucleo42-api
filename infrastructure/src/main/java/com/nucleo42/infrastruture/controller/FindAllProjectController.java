@@ -1,6 +1,8 @@
 package com.nucleo42.infrastruture.controller;
 
+import com.nucleo42.entity.Member;
 import com.nucleo42.entity.Project;
+import com.nucleo42.entity.Technology;
 import com.nucleo42.infrastruture.annotation.ApiRequestBody;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
 import com.nucleo42.usecase.FindAllProjects;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,9 +71,22 @@ public class FindAllProjectController {
             )
     })
     @GetMapping
-    public ResponseEntity<List<Project>> findAll()
+    public ResponseEntity<List<Project>> findAll(
+            @RequestParam(value = "name", required = false)
+            String name,
+            @RequestParam(value = "vacancies", required = false)
+            Integer vacancies,
+            @RequestParam(value = "technologies", required = false)
+            List<Long> technologies,
+            @RequestParam(value = "members", required = false)
+            String memberName,
+            @RequestParam(value = "year", required = false)
+            Integer year,
+            @RequestParam(value = "month", required = false)
+            Integer month
+    )
     {
-        return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll(name, vacancies, technologies, memberName, month, year));
     }
 
 

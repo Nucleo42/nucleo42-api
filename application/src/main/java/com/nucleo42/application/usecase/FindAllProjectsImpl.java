@@ -15,7 +15,7 @@ public class FindAllProjectsImpl implements FindAllProjects {
     }
 
     @Override
-    public List<Project> findAll() {
-        return findAllProjectsGateway.findAll();
+    public List<Project> findAll(String name, Integer vacancies, List<Long> technologies, String memberName, Integer month, Integer year) {
+        return findAllProjectsGateway.findAll(name, vacancies, technologies, memberName, month, year);
     }
 }
