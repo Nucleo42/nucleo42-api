@@ -1,0 +1,27 @@
+package com.nucleo42.infrastructure.service;
+
+import com.nucleo42.application.gateway.AddAccountGateway;
+import com.nucleo42.entity.User;
+import com.nucleo42.infrastructure.mapper.UserMapper;
+import com.nucleo42.infrastructure.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserGateway implements AddAccountGateway {
+    @Autowired
+    private UserRepository repository;
+
+    @Override
+    public Boolean add(User user) {
+        var userEntity = UserMapper.toEntity(user);
+
+        var userExists = this.repository.existsByEmail(userEntity.getEmail());
+        if (userExists) {
+            return false;
+        }
+
+        this.repository.save(userEntity);
+        return true;
+    }
+}
