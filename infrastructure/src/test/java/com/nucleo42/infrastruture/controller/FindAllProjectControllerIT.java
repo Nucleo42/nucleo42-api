@@ -1,7 +1,5 @@
 package com.nucleo42.infrastruture.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nucleo42.infrastruture.dto.CreateProjectRequestDTO;
 import com.nucleo42.infrastruture.entity.ProjectEntity;
 import com.nucleo42.infrastruture.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
@@ -27,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test")
-class FindAllProjectControllerTest {
+class FindAllProjectControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
