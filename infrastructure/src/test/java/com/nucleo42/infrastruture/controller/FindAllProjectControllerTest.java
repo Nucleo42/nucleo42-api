@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,16 +34,11 @@ class FindAllProjectControllerTest {
     @Autowired
     private ProjectRepository projectEntityRepository;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-    private CreateProjectRequestDTO createProjectRequestDTO;
     private List<ProjectEntity> projects;
 
     @BeforeEach
     void setup() {
         projectEntityRepository.deleteAll();
-        createProjectRequestDTO = new CreateProjectRequestDTO("NucleoProject", "Its a Project", 12, "Make a project");
         projects = List.of(
                 new ProjectEntity(
                         null,
@@ -65,6 +61,17 @@ class FindAllProjectControllerTest {
                         List.of(),
                         null,
                         null
+                ),
+                new ProjectEntity(
+                        null,
+                        "Third projects",
+                        "Its a new project",
+                        20,
+                        "Goal 3",
+                        List.of(),
+                        List.of(),
+                        LocalDateTime.of(2023, 2, 12, 0, 0, 0),
+                        null
                 )
         );
         projectEntityRepository.saveAll(projects);
@@ -85,9 +92,10 @@ class FindAllProjectControllerTest {
     void test04() throws Exception {
         mockMvc.perform(get("/project").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(2))
+                .andExpect(jsonPath("$.size()").value(3))
                 .andExpect(jsonPath("$[0].name").value(projects.getFirst().getName()))
-                .andExpect(jsonPath("$[1].name").value(projects.get(1).getName()));
+                .andExpect(jsonPath("$[1].name").value(projects.get(1).getName()))
+                .andExpect(jsonPath("$[2].name").value(projects.get(2).getName()));
     }
 
     @Test
