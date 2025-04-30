@@ -45,7 +45,8 @@ class RemoveFindAllProjectControllerIT {
                         "Its a project",
                         12,
                         "Goal",
-                        null,
+                        List.of(),
+                        List.of(),
                         null,
                         null
                 ),
@@ -55,7 +56,8 @@ class RemoveFindAllProjectControllerIT {
                         "Its a project",
                         2,
                         "Goal",
-                        null,
+                        List.of(),
+                        List.of(),
                         null,
                         null
                 )
