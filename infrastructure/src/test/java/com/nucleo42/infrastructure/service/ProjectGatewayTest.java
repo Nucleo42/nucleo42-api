@@ -7,9 +7,11 @@ import com.nucleo42.infrastructure.repository.ProjectRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -58,8 +60,7 @@ class ProjectGatewayTest {
             mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
 
             projectGateway.findAll(null, null, null, null, null,  null);
-
-            verify(projectRepository).findAll();
+            verify(projectRepository).findAll(any(Specification.class));
         }
     }
 
