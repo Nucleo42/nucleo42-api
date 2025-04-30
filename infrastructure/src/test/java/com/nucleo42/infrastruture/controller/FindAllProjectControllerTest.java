@@ -99,4 +99,14 @@ class FindAllProjectControllerTest {
                 .andExpect(jsonPath("$.size()").value(1))
                 .andExpect(jsonPath("$[0].name").value(projects.get(1).getName()));
     }
+
+    @Test
+    @DisplayName("Should return all projects filtered by vacancies")
+    void test06() throws Exception {
+        mockMvc.perform(get("/project")
+                        .param("vacancies", "12").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].name").value(projects.getFirst().getName()));
+    }
 }
