@@ -4,13 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.nucleo42.infrastructure.dto.ResponseErrorDTO;
+import com.nucleo42.infrastructure.dto.ResponseFieldErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.util.WebUtils;
@@ -70,11 +74,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ex.getBindingResult().getAllErrors().stream()
-                        .map(error -> error.getDefaultMessage())
-                        .collect(Collectors.joining("\n")));
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseErrorDTO handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        List<FieldError> fieldErrors = exception.getFieldErrors();
+
+        List<ResponseFieldErrorDTO> response = fieldErrors.stream().map(ResponseFieldErrorDTO::fromValidation).toList();
+
+        return new ResponseErrorDTO(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Campos inválidos", response);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
