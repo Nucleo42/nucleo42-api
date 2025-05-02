@@ -3,6 +3,7 @@ package com.nucleo42.infrastructure.controller;
 import com.nucleo42.entity.Project;
 import com.nucleo42.infrastructure.annotation.ApiRequestBody;
 import com.nucleo42.infrastructure.dto.UpdateProjectRequestDTO;
+import com.nucleo42.usecase.FindProjectById;
 import com.nucleo42.usecase.UpdateProject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,7 +26,8 @@ import java.util.UUID;
 @RequestMapping("/project")
 public class UpdateProjectController {
 
-    private final UpdateProject updateProjectUseCase;
+    private final UpdateProject updateProject;
+    private final FindProjectById findProjectById;
 
     @Operation(
             description = "Update a new project",
@@ -99,11 +101,16 @@ public class UpdateProjectController {
             )
     )
     @PutMapping("{id}")
-    public ResponseEntity<String> create(@PathVariable("id") String projectId, @RequestBody @Valid UpdateProjectRequestDTO dto)
+    public ResponseEntity<String> update(@PathVariable("id") String projectId, @RequestBody @Valid UpdateProjectRequestDTO dto)
     {
-        var project = new Project(dto.name(), dto.description(), dto.vacancies(), dto.goal(), new ArrayList<>(), new ArrayList<>());
-        project.setId(UUID.fromString(projectId));
-        var result = updateProjectUseCase.update(project);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        Project project = findProjectById.findById(UUID.fromString(projectId));
+
+        project.setName(dto.name());
+        project.setDescription(dto.description());
+        project.setGoal(dto.goal());
+        project.setVacancies(dto.vacancies());
+
+        String message = updateProject.update(project);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 }

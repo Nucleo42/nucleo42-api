@@ -110,25 +110,7 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
 
     @Override
     public Boolean update(Project project) {
-        if (project.getId() == null)
-        {
-            return false;
-        }
-
-        Optional<ProjectEntity> projectOptional = projectRepository.findById(project.getId());
-
-        if (projectOptional.isPresent())
-        {
-            ProjectEntity projectData = projectOptional.get();
-
-            projectData.setName(project.getName());
-            projectData.setGoal(project.getGoal());
-            projectData.setDescription(project.getDescription());
-            projectData.setVacancies(project.getVacancies());
-
-            projectRepository.save(projectData);
-            return true;
-        }
+        projectRepository.save(ProjectMapper.toEntity(project));
         return false;
     }
 
