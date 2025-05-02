@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,6 +59,14 @@ public class FindProjectByIdTest {
     void test2() {
         when(findProjectByIdGateway.findById(projectId)).thenReturn(project);
         assertEquals(project, findProjectById.findById(projectId));
+    }
+
+    @Test
+    @DisplayName("Should return null when project no exists")
+    void test03() {
+        UUID uuid = UUID.randomUUID();
+        when(findProjectByIdGateway.findById(uuid)).thenReturn(null);
+        assertNull(findProjectById.findById(uuid));
     }
 
 }
