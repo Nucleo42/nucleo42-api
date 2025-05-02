@@ -19,10 +19,10 @@ import static org.mockito.Mockito.*;
 class AddProjectImplTest {
 
     @InjectMocks
-    private AddProjectImpl createProjectUseCase;
+    private AddProjectImpl addProjectImpl;
 
     @Mock
-    private AddProjectGateway createProjectGateway;
+    private AddProjectGateway addProjectGateway;
 
     private Project project;
 
@@ -36,20 +36,20 @@ class AddProjectImplTest {
                 "Make a project",
                 new ArrayList<>(),
                 new ArrayList<>());
-        lenient().when(createProjectGateway.create(project)).thenReturn(true);
+        lenient().when(addProjectGateway.create(project)).thenReturn(true);
     }
 
     @Test
-    @DisplayName("Should call ICreateProjectGateway with correct value")
+    @DisplayName("Should call AddProjectGateway with correct value")
     void test01() {
-        createProjectUseCase.create(project);
-        verify(createProjectGateway).create(project);
+        addProjectImpl.create(project);
+        verify(addProjectGateway).create(project);
     }
 
     @Test
-    @DisplayName("Should return success message when ICreateProjectGateway returns true")
+    @DisplayName("Should return success message when AddProjectGateway returns true")
     void test3() {
-        when(createProjectGateway.create(project)).thenReturn(true);
-        assertEquals("Project created successfully", createProjectUseCase.create(project));
+        when(addProjectGateway.create(project)).thenReturn(true);
+        assertEquals("Project created successfully", addProjectImpl.create(project));
     }
 }
