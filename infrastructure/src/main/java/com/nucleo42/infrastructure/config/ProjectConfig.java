@@ -1,15 +1,10 @@
 package com.nucleo42.infrastructure.config;
 
-import com.nucleo42.application.gateway.AddProjectGateway;
-import com.nucleo42.application.gateway.FindAllProjectsGateway;
-import com.nucleo42.application.gateway.RemoveProjectGateway;
-import com.nucleo42.application.gateway.UpdateProjectGateway;
-import com.nucleo42.application.usecase.AddProjectImpl;
-import com.nucleo42.application.usecase.FindAllProjectsImpl;
-import com.nucleo42.application.usecase.RemoveProjectImpl;
-import com.nucleo42.application.usecase.UpdateProjectImpl;
+import com.nucleo42.application.gateway.*;
+import com.nucleo42.application.usecase.*;
 import com.nucleo42.infrastructure.service.ProjectGateway;
 import com.nucleo42.usecase.AddProject;
+import com.nucleo42.usecase.FindProjectById;
 import com.nucleo42.usecase.findall.FindAllProjects;
 import com.nucleo42.usecase.RemoveProject;
 import com.nucleo42.usecase.UpdateProject;
@@ -33,6 +28,11 @@ public class ProjectConfig {
     @Bean
     public FindAllProjects findAllProjects(FindAllProjectsGateway findAllProjectsGateway) {
         return new FindAllProjectsImpl(findAllProjectsGateway);
+    }
+
+    @Bean
+    public FindProjectById findProjectById(FindProjectByIdGateway findProjectByIdGateway) {
+        return new FindProjectByIdImpl(findProjectByIdGateway);
     }
 
     @Bean
