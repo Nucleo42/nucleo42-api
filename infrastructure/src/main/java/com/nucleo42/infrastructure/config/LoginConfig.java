@@ -3,6 +3,7 @@ package com.nucleo42.infrastructure.config;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.nucleo42.application.gateway.LoadUserByEmailGateway;
 import com.nucleo42.application.protocol.HashCompare;
+import com.nucleo42.application.protocol.TokenDecoder;
 import com.nucleo42.application.protocol.TokenGenerator;
 import com.nucleo42.application.usecase.LoginImpl;
 import com.nucleo42.infrastructure.adapter.BCryptAdapter;
@@ -31,6 +32,13 @@ public class LoginConfig {
 
     @Bean
     public TokenGenerator tokenGenerator() {
+        var secret = System.getenv("JWT_SECRET");
+        var algorithm = Algorithm.HMAC256(secret);
+        return new JwtAdapter(secret, algorithm);
+    }
+
+    @Bean
+    public TokenDecoder tokenDecoder() {
         var secret = System.getenv("JWT_SECRET");
         var algorithm = Algorithm.HMAC256(secret);
         return new JwtAdapter(secret, algorithm);
