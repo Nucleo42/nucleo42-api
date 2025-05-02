@@ -8,7 +8,12 @@ import java.util.UUID;
 
 public class FindProjectByIdImpl implements FindProjectById {
 
-    private FindProjectByIdGateway findProjectByIdGateway;
+    private final FindProjectByIdGateway findProjectByIdGateway;
+
+    public FindProjectByIdImpl(FindProjectByIdGateway findProjectByIdGateway)
+    {
+        this.findProjectByIdGateway = findProjectByIdGateway;
+    }
 
     @Override
     public Project findById(UUID id) {
