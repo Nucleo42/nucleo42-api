@@ -8,6 +8,7 @@ import com.nucleo42.entity.Project;
 import com.nucleo42.infrastructure.entity.ProjectEntity;
 import com.nucleo42.infrastructure.mapper.ProjectMapper;
 import com.nucleo42.infrastructure.repository.ProjectRepository;
+import com.nucleo42.usecase.FindProjectById;
 import com.nucleo42.usecase.findall.FindAllProjectsParams;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway, RemoveProjectGateway, UpdateProjectGateway {
+public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway, FindProjectById, RemoveProjectGateway, UpdateProjectGateway {
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -129,6 +130,12 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Project findById(UUID id) {
+        Optional<ProjectEntity> projectEntity = projectRepository.findById(id);
+        return projectEntity.map(ProjectMapper::fromEntity).orElse(null);
     }
 }
 
