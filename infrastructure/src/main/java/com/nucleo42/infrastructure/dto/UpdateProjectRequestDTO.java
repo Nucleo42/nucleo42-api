@@ -6,18 +6,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UpdateProjectRequestDTO(
-        @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres")
-        @NotBlank(message = "O nome do projeto precisa ser informado")
+        @Size(min = 3, message = "The name must have at least 3 characters")
+        @NotBlank(message = "Project's name is required")
         String name,
 
-        @NotBlank(message = "A descrição do projeto precisa ser informado")
+        @NotBlank(message = "Project's description is requried")
         String description,
 
-        @NotNull(message = "As vagas do projeto precisam ser informadas")
-        @Min(value = 0, message = "O total de vagas deve ser um número natural")
+        @NotNull(message = "Project's vacancies are required")
+        @Min(value = 0, message = "The total number of vacancies must be a natural number")
         Integer vacancies,
 
-        @NotBlank(message = "O objetivo do projeto precisa ser informado")
+        @NotBlank(message = "Project's goal is required")
         String goal
 ){
 }
