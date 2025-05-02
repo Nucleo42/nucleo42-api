@@ -8,6 +8,7 @@ import com.nucleo42.entity.Project;
 import com.nucleo42.infrastructure.entity.ProjectEntity;
 import com.nucleo42.infrastructure.mapper.ProjectMapper;
 import com.nucleo42.infrastructure.repository.ProjectRepository;
+import com.nucleo42.usecase.findall.FindAllProjectsParams;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,62 +32,62 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
     }
 
     @Override
-    public List<Project> findAll(String name, Integer vacancies, List<Long> technologies, String memberName, Integer month, Integer year) {
+    public List<Project> findAll(FindAllProjectsParams dto) {
 
         Specification<ProjectEntity> specifications = Specification.where((root, query, cb) -> cb.conjunction());
 
-        if (name != null)
+        if (dto.name() != null)
         {
             Specification<ProjectEntity> nameSpecification = (root, query, cb) -> {
-                return cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+                return cb.like(cb.lower(root.get("name")), "%" + dto.name().toLowerCase() + "%");
             };
             specifications = specifications.and(nameSpecification);
         }
 
-        if (vacancies != null)
+        if (dto.vacancies() != null)
         {
             Specification<ProjectEntity> vacanciesSpecification = (root, query, cb) ->
             {
-                return cb.equal(root.get("vacancies"), vacancies);
+                return cb.equal(root.get("vacancies"), dto.vacancies());
             };
             specifications = specifications.and(vacanciesSpecification);
         }
 
-        if (technologies != null && !technologies.isEmpty())
+        if (dto.technologies() != null && !dto.technologies().isEmpty())
         {
             Specification<ProjectEntity> technologySpecification = (root, query, cb) ->
             {
-                return root.get("technologies").in(technologies);
+                return root.get("technologies").in(dto.technologies());
             };
             specifications = specifications.and(technologySpecification);
         }
 
-        if (memberName != null)
+        if (dto.memberName() != null)
         {
             Specification<ProjectEntity> memberNameSpecification = (root, query, cb) ->
             {
                 Join<Object, Object> project = root.join("project_members", JoinType.INNER);
 
-                return cb.like(cb.lower(project.get("user.firstName")) , "%" + memberName.toLowerCase() + "%");
+                return cb.like(cb.lower(project.get("user.firstName")) , "%" + dto.memberName().toLowerCase() + "%");
             };
             specifications = specifications.and(memberNameSpecification);
         }
 
-        if (year != null)
+        if (dto.year() != null)
         {
             Specification<ProjectEntity> yearSpecification = (root, query, cb) -> {
                 return cb.equal(
                         cb.function("to_char", String.class, root.get("createdAt"),
                                 cb.literal("YYYY"))
-                        , year.toString());
+                        , dto.year().toString());
             };
 
             specifications = specifications.and(yearSpecification);
         }
 
-        if (month != null)
+        if (dto.month() != null)
         {
-            String formattedMonth = String.format("%02d", month);
+            String formattedMonth = String.format("%02d", dto.month());
             Specification<ProjectEntity> monthSpecification = (root, query, cb) ->
             {
                 return cb.equal(

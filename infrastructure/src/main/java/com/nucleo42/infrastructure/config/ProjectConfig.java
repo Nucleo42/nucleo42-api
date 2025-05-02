@@ -10,7 +10,7 @@ import com.nucleo42.application.usecase.RemoveProjectImpl;
 import com.nucleo42.application.usecase.UpdateProjectImpl;
 import com.nucleo42.infrastructure.service.ProjectGateway;
 import com.nucleo42.usecase.AddProject;
-import com.nucleo42.usecase.FindAllProjects;
+import com.nucleo42.usecase.findall.FindAllProjects;
 import com.nucleo42.usecase.RemoveProject;
 import com.nucleo42.usecase.UpdateProject;
 import org.springframework.context.annotation.Bean;

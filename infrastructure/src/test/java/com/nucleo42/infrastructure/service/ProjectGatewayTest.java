@@ -4,6 +4,7 @@ import com.nucleo42.entity.Project;
 import com.nucleo42.infrastructure.entity.ProjectEntity;
 import com.nucleo42.infrastructure.mapper.ProjectMapper;
 import com.nucleo42.infrastructure.repository.ProjectRepository;
+import com.nucleo42.usecase.findall.FindAllProjectsParams;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +60,7 @@ class ProjectGatewayTest {
         try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
             mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
 
-            projectGateway.findAll(null, null, null, null, null,  null);
+            projectGateway.findAll(new FindAllProjectsParams(null, null, null, null, null,  null));
             verify(projectRepository).findAll(any(Specification.class));
         }
     }

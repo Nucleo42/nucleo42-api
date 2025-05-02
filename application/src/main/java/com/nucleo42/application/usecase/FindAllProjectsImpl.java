@@ -2,7 +2,8 @@ package com.nucleo42.application.usecase;
 
 import com.nucleo42.application.gateway.FindAllProjectsGateway;
 import com.nucleo42.entity.Project;
-import com.nucleo42.usecase.FindAllProjects;
+import com.nucleo42.usecase.findall.FindAllProjects;
+import com.nucleo42.usecase.findall.FindAllProjectsParams;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class FindAllProjectsImpl implements FindAllProjects {
     }
 
     @Override
-    public List<Project> findAll(String name, Integer vacancies, List<Long> technologies, String memberName, Integer month, Integer year) {
-        return findAllProjectsGateway.findAll(name, vacancies, technologies, memberName, month, year);
+    public List<Project> findAll(FindAllProjectsParams params) {
+        return findAllProjectsGateway.findAll(params);
     }
 }

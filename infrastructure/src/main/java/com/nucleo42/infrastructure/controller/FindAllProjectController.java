@@ -1,8 +1,9 @@
 package com.nucleo42.infrastructure.controller;
 
 import com.nucleo42.entity.Project;
-import com.nucleo42.usecase.FindAllProjects;
+import com.nucleo42.usecase.findall.FindAllProjects;
 import com.nucleo42.usecase.RemoveProject;
+import com.nucleo42.usecase.findall.FindAllProjectsParams;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -79,7 +80,7 @@ public class FindAllProjectController {
             Integer month
     )
     {
-        return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll(name, vacancies, technologies, memberName, month, year));
+        return ResponseEntity.status(HttpStatus.OK).body(findAllProjects.findAll(new FindAllProjectsParams(name, vacancies, technologies, memberName, month, year)));
     }
 
 
