@@ -53,4 +53,11 @@ public class FindProjectByIdTest {
         verify(findProjectByIdGateway).findById(projectId);
     }
 
+    @Test
+    @DisplayName("Should return the project when FindProjectByIdGateway is called")
+    void test2() {
+        when(findProjectByIdGateway.findById(projectId)).thenReturn(project);
+        assertEquals(project, findProjectById.findById(projectId));
+    }
+
 }
