@@ -20,6 +20,8 @@ import com.nucleo42.infrastructure.dto.UpdateUserRequestDTO;
 import com.nucleo42.infrastructure.entity.UserEntity;
 import com.nucleo42.infrastructure.repository.UserRepository;
 
+import java.util.UUID;
+
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -43,9 +45,9 @@ public class UpdateUserProfileControllerIT {
                 null, null, null, null);
         userEntity = userRepository.save(userEntity);
 
-        userRequest = new UpdateUserRequestDTO(userEntity.getId().toString(), "Núcleo2", "422", "nucleo422@gmail.com", "Nova senha2", " ");
+        userRequest = new UpdateUserRequestDTO(userEntity.getId(), "Núcleo2", "422", "nucleo422@gmail.com", "Nova senha2", " ");
 
-        userNotExistRequest = new UpdateUserRequestDTO("61776d3c-ceaf-4cd0-959c-794ac86f3732", "Núcleo2", "422", "nucleo422@gmail.com", "Nova senha2", " ");
+        userNotExistRequest = new UpdateUserRequestDTO(UUID.fromString("61776d3c-ceaf-4cd0-959c-794ac86f3732"), "Núcleo2", "422", "nucleo422@gmail.com", "Nova senha2", " ");
     }
 
     @Test
