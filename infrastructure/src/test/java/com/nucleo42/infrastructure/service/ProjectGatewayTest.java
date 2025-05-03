@@ -105,6 +105,22 @@ class ProjectGatewayTest {
                 assert projectData.equals(project);
             }
         }
+
+        @Test
+        @DisplayName("Should return a RegisterDoesNotExistsException when id is invalid")
+        void test03() {
+            UUID projectId = UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb");
+            when(projectRepository.findById(projectId)).thenReturn(Optional.empty());
+
+            try {
+                projectGateway.findById(projectId);
+                assert false : "Expected RegisterDoesNotExistsException to be thrown";
+            } catch (RegisterDoesNotExistsException exception)
+            {
+                assert exception.getMessage().equals("Project is not registered");
+            }
+
+        }
     }
 
     @Nested
