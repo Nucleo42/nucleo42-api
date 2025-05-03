@@ -5,6 +5,7 @@ import com.nucleo42.application.gateway.FindAllProjectsGateway;
 import com.nucleo42.application.gateway.RemoveProjectGateway;
 import com.nucleo42.application.gateway.UpdateProjectGateway;
 import com.nucleo42.entity.Project;
+import com.nucleo42.exception.RegisterDoesNotExistsException;
 import com.nucleo42.infrastructure.entity.ProjectEntity;
 import com.nucleo42.infrastructure.mapper.ProjectMapper;
 import com.nucleo42.infrastructure.repository.ProjectRepository;
@@ -111,13 +112,13 @@ public class ProjectGateway implements AddProjectGateway, FindAllProjectsGateway
     @Override
     public Boolean update(Project project) {
         projectRepository.save(ProjectMapper.toEntity(project));
-        return false;
+        return true;
     }
 
     @Override
     public Project findById(UUID id) {
         Optional<ProjectEntity> projectEntity = projectRepository.findById(id);
-        return projectEntity.map(ProjectMapper::fromEntity).orElse(null);
+        return projectEntity.map(ProjectMapper::fromEntity).orElseThrow(() -> new RegisterDoesNotExistsException("Project is not registered"));
     }
 }
 
