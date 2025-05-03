@@ -1,6 +1,7 @@
 package com.nucleo42.infrastructure.service;
 
 import com.nucleo42.entity.Project;
+import com.nucleo42.exception.RegisterDoesNotExistsException;
 import com.nucleo42.infrastructure.entity.ProjectEntity;
 import com.nucleo42.infrastructure.mapper.ProjectMapper;
 import com.nucleo42.infrastructure.repository.ProjectRepository;
@@ -88,6 +89,20 @@ class ProjectGatewayTest {
                 mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
                 projectGateway.findById(projectId);
                 verify(projectRepository).findById(projectId);
+            }
+        }
+
+        @Test
+        @DisplayName("Should return a Project when success")
+        void test02() {
+            UUID projectId = UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb");
+            when(projectRepository.findById(projectId)).thenReturn(Optional.of(projectEntity));
+
+            try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
+                mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
+                Project projectData = projectGateway.findById(projectId);
+
+                assert projectData.equals(project);
             }
         }
     }
