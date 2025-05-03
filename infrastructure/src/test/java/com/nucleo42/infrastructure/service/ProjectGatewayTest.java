@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -72,6 +73,23 @@ class ProjectGatewayTest {
             }
         }
 
+    }
+
+    @Nested
+    class FindById {
+
+        @Test
+        @DisplayName("Should call ProjectRepository.findById correctly")
+        void test01() {
+            UUID projectId = UUID.fromString("167fa082-dca1-4c30-a136-356a5c57bacb");
+            when(projectRepository.findById(projectId)).thenReturn(Optional.of(projectEntity));
+
+            try (var mockedProjectMapper = mockStatic(ProjectMapper.class)){
+                mockedProjectMapper.when(() -> ProjectMapper.fromEntity(projectEntity)).thenReturn(project);
+                projectGateway.findById(projectId);
+                verify(projectRepository).findById(projectId);
+            }
+        }
     }
 
     @Nested
