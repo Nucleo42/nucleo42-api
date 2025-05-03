@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ public class UpdateUserProfileSkillControllerIT {
     private final List<SkillRequestDTO> skillRequests = List.of(new SkillRequestDTO(1L), new SkillRequestDTO(2L),
             new SkillRequestDTO(3L));
     private final UpdateSkillRequestDTO userNotExistUpdateSkills = new UpdateSkillRequestDTO(
-            "aaa3700f-f214-45a2-be5c-25a23c1b8f41c", skillRequests);
+            UUID.fromString("aaa3700f-f214-45a2-be5c-25a23c1b8f41c"), skillRequests);
 
     private UserEntity user;
     private UpdateSkillRequestDTO userUpdateSkills; 
@@ -54,7 +55,7 @@ public class UpdateUserProfileSkillControllerIT {
 
         user = repository.save(user);
 
-        userUpdateSkills = new UpdateSkillRequestDTO(user.getId().toString(), skillRequests);
+        userUpdateSkills = new UpdateSkillRequestDTO(user.getId(), skillRequests);
     }
 
     @Test

@@ -3,7 +3,6 @@ package com.nucleo42.infrastructure.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nucleo42.infrastructure.dto.SignUpRequestDTO;
 import com.nucleo42.infrastructure.repository.UserRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-class SignUpControllerTest {
+class SignUpControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
@@ -62,12 +61,12 @@ class SignUpControllerTest {
     }
 
     @Test
-    @DisplayName("Should return 400 when request is invalid")
+    @DisplayName("Should return 422 when request is invalid")
     void test03() throws Exception {
         mockMvc.perform(post("/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new SignUpRequestDTO("", "", "", "", false))))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -75,9 +74,9 @@ class SignUpControllerTest {
     void test04() throws Exception {
         mockMvc.perform(post("/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new SignUpRequestDTO("", "", "", "", false))))
+                        .content(objectMapper.writeValueAsString(new SignUpRequestDTO("MRS", "Teste", "teste@teste.com", "123456789aA@", false))))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> result.getResponse().getContentAsString().contains("Accept terms is required"));
+                .andExpect(result -> result.getResponse().getContentAsString().contains("You must accept the terms and conditions"));
 
     }
 }

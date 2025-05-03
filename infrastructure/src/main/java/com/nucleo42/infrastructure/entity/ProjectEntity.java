@@ -32,6 +32,14 @@ public class ProjectEntity {
     @Column(nullable = false)
     private String goal;
 
+    @ManyToMany
+    @JoinTable(
+            name = "project_technologies",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "technology_id")
+    )
+    private List<TechnologyEntity> technologies;
+
     @OneToMany(mappedBy = "project")
     private List<ProjectMemberEntity> projectMembers;
 

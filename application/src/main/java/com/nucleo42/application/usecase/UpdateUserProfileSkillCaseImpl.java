@@ -1,6 +1,7 @@
 package com.nucleo42.application.usecase;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.nucleo42.application.gateway.IUpdateUserProfileSkillGateway;
 import com.nucleo42.entity.Skill;
@@ -14,7 +15,7 @@ public class UpdateUserProfileSkillCaseImpl implements UpdateUserProfileSkillsCa
     }
 
     @Override
-    public boolean updateSkills(List<Skill> skills, String userId) {
+    public boolean updateSkills(List<Skill> skills, UUID userId) {
         return skillGateway.updateSkills(skills, userId);
     }
 
